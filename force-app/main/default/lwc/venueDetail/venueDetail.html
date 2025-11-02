@@ -1,0 +1,33 @@
+<template>
+    <lightning-card icon-name="standard:home">
+        <!-- Show data when the wire service has successfully fetched it -->
+        <template if:true={venue.data}>
+            <h1 slot="title" class="slds-text-heading_large">{venue.data.fields.VenueName__c.value}</h1>
+
+            <div class="slds-p-around_medium">
+                <p class="slds-text-heading_small slds-m-bottom_small">Location</p>
+                <p class="slds-m-bottom_large">{venue.data.fields.Location__c.value}</p>
+
+                <p class="slds-text-heading_small slds-m-bottom_small">Maximum Capacity</p>
+                <p class="slds-m-bottom_large">{venue.data.fields.Capacity__c.value} guests</p>
+
+                <p class="slds-text-heading_small slds-m-bottom_small">Description</p>
+                <div class="slds-m-bottom_large slds-box slds-theme_default">
+                    <lightning-formatted-rich-text value={venue.data.fields.Descriptions__c.value}></lightning-formatted-rich-text>
+                </div>
+            </div>
+        </template>
+        <!-- Show an error message if the wire service fails -->
+        <template if:true={venue.error}>
+            <div class="slds-p-around_medium">
+                <p>An error occurred while loading the venue details. Please try again later.</p>
+            </div>
+        </template>
+        <!-- Show a loading spinner while the data is being fetched -->
+        <template if:false={venue.data}>
+             <div class="slds-p-around_large">
+                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+             </div>
+        </template>
+    </lightning-card>
+</template>

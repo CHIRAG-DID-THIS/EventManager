@@ -1,0 +1,146 @@
+<template>
+    <lightning-card title="Company Registration" icon-name="standard:account">
+        <div class="slds-p-around_medium">
+            <!-- Loading Spinner -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Creating company..." size="medium"></lightning-spinner>
+            </template>
+
+            <!-- Registration Form -->
+            <form onsubmit={handleSubmit}>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    
+                    <!-- Company Name -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-input
+                            label="Company Name"
+                            data-field="companyName"
+                            value={companyData.companyName}
+                            onchange={handleInputChange}
+                            required
+                            disabled={isFormDisabled}
+                            placeholder="Enter your company name"
+                        ></lightning-input>
+                    </div>
+
+                    <!-- Registration Number -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-input
+                            label="Company Registration Number"
+                            data-field="regNo"
+                            value={companyData.regNo}
+                            onchange={handleInputChange}
+                            required
+                            disabled={isFormDisabled}
+                            placeholder="Enter registration number"
+                        ></lightning-input>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-input
+                            label="Phone Number"
+                            type="tel"
+                            data-field="phone"
+                            value={companyData.phone}
+                            onchange={handleInputChange}
+                            required
+                            disabled={isFormDisabled}
+                            placeholder="Enter phone number"
+                        ></lightning-input>
+                    </div>
+
+                    <!-- City -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-input
+                            label="City"
+                            data-field="city"
+                            value={companyData.city}
+                            onchange={handleInputChange}
+                            disabled={isFormDisabled}
+                            placeholder="Enter city"
+                        ></lightning-input>
+                    </div>
+
+                    <!-- Event Type -->
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-combobox
+                            label="Event Types (Select multiple)"
+                            data-field="eventType"
+                            value={companyData.eventType}
+                            options={eventTypeOptions}
+                            onchange={handleInputChange}
+                            disabled={isFormDisabled}
+                            placeholder="Select event types you specialize in"
+                            multiple
+                        ></lightning-combobox>
+                    </div>
+
+                    <!-- Banking Info -->
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input
+                            label="Banking Information"
+                            data-field="bankingInfo"
+                            value={companyData.bankingInfo}
+                            onchange={handleInputChange}
+                            disabled={isFormDisabled}
+                            placeholder="Enter UPI ID or bank details"
+                        ></lightning-input>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-textarea
+                            label="Address"
+                            data-field="address"
+                            value={companyData.address}
+                            onchange={handleInputChange}
+                            disabled={isFormDisabled}
+                            placeholder="Enter complete address"
+                            rows="3"
+                        ></lightning-textarea>
+                    </div>
+
+                    <!-- About -->
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-textarea
+                            label="About Your Company"
+                            data-field="about"
+                            value={companyData.about}
+                            onchange={handleInputChange}
+                            disabled={isFormDisabled}
+                            placeholder="Tell us about your company and services"
+                            rows="4"
+                        ></lightning-textarea>
+                    </div>
+
+                </div>
+
+                <!-- Submit Button -->
+                <div class="slds-align_absolute-center slds-p-top_large">
+                    <lightning-button
+                        label="Register Company"
+                        type="submit"
+                        variant="brand"
+                        disabled={isFormDisabled}
+                        class="slds-m-right_small"
+                    ></lightning-button>
+                    
+                    <lightning-button
+                        label="Reset Form"
+                        variant="neutral"
+                        onclick={resetForm}
+                        disabled={isFormDisabled}
+                    ></lightning-button>
+                </div>
+            </form>
+
+            <!-- Help Text -->
+            <div class="slds-p-top_large slds-text-align_center">
+                <p class="slds-text-color_weak slds-text-body_small">
+                    After registering your company, you'll be able to add venues and services.
+                </p>
+            </div>
+        </div>
+    </lightning-card>
+</template>

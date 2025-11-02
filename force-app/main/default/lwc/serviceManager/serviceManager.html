@@ -1,0 +1,50 @@
+<!--
+  LWC for vendors to manage their Event Services.
+  Displays a list of services and provides a modal to add/edit them.
+-->
+<template>
+    <lightning-card title="My Services" icon-name="standard:checkout">
+        <lightning-button label="Add New Service" slot="actions" onclick={handleAddNew}></lightning-button>
+
+        <!-- Service List -->
+        <div class="slds-p-around_medium">
+            <template if:true={services}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={services}
+                    columns={columns}
+                    onrowaction={handleRowAction}
+                    hide-checkbox-column>
+                </lightning-datatable>
+            </template>
+            <template if:false={services.length}>
+                <p>You have not added any services yet. Click "Add New Service" to get started.</p>
+            </template>
+        </div>
+
+        <!-- Add/Edit Modal -->
+        <template if:true={isModalOpen}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium"></lightning-icon>
+                        </button>
+                        <h2 class="slds-modal__title slds-hyphenate">Add/Edit Service</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <!-- Form Fields -->
+                        <lightning-combobox name="Service_Type__c" label="Service Type" value={currentService.Service_Type__c} placeholder="Select Type" options={typeOptions} onchange={handleInputChange}></lightning-combobox>
+                        <lightning-combobox name="Service_Subtype__c" label="Service Subtype" value={currentService.Service_Subtype__c} placeholder="Select Subtype" options={subtypeOptions} onchange={handleInputChange}></lightning-combobox>
+                        <lightning-input label="Price" type="number" formatter="currency" value={currentService.Price__c} onchange={handleInputChange} name="Price__c"></lightning-input>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Cancel" onclick={closeModal} class="slds-m-right_x-small"></lightning-button>
+                        <lightning-button label="Save" variant="brand" onclick={handleSave}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </lightning-card>
+</template>

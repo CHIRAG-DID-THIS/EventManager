@@ -1,0 +1,135 @@
+<template>
+    <div class="venue-details-container">
+        <template if:true={isLoading}>
+            <div class="loading-container">
+                <lightning-spinner alternative-text="Loading venue details..." size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasVenue}>
+            <!-- Top Section -->
+            <div class="top-section-grid">
+                <div class="venue-gallery">
+                    <h1 class="venue-title">{venue.VenueName__c}</h1>
+                    <div class="main-image-container">
+                        <img src={heroImageUrl} alt="Main venue image" class="main-image"/>
+                    </div>
+                </div>
+
+                <div class="venue-sidebar">
+                    <div class="details-card">
+                         <h2 class="section-title">Venue Details</h2>
+                         <div class="details-list">
+                            <p class="detail-item">
+                                <lightning-icon icon-name="utility:location" size="small"></lightning-icon>
+                                <span>Location: <strong>{venue.Location__c}</strong></span>
+                            </p>
+                            <p class="detail-item">
+                                <lightning-icon icon-name="utility:users" size="small"></lightning-icon>
+                                <span>Capacity: <strong>{venue.Capacity__c} people</strong></span>
+                            </p>
+                            <p class="detail-item">
+                                <lightning-icon icon-name="utility:event" size="small" variant={availabilityVariant}></lightning-icon>
+                                <span>Available: <strong>{availabilityText}</strong></span>
+                            </p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description Section -->
+            <section class="content-section">
+                <div class="content-container feature-grid">
+                    <div class="feature-text">
+                        <h2>Description</h2>
+                        <p>Welcome to <strong>{venue.VenueName__c}</strong>, the perfect destination for your next unforgettable event. Our venue combines elegance with functionality, providing a sophisticated ambiance for weddings, corporate events, and private celebrations.</p>
+                        <br/>
+                        <p>Whether you're planning a lavish wedding, a corporate retreat, or a milestone celebration, <strong>{venue.VenueName__c}</strong> ensures an unforgettable experience with exceptional service and attention to detail. Let us help you create memories that last a lifetime.</p>
+                    </div>
+                    <div class="feature-image">
+                        <img src="https://images.unsplash.com/photo-1542665952-14513db15293?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMJA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Elegant hall interior">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Amenities Section -->
+            <section class="content-section section-alt-bg">
+                <div class="content-container feature-grid reverse">
+                    <div class="feature-text">
+                        <h2>Amenities</h2>
+                        <ul class="services-list">
+                            <li class="service-item"><lightning-icon icon-name="utility:check" size="small" class="service-icon"></lightning-icon> High-Speed Wi-Fi</li>
+                            <li class="service-item"><lightning-icon icon-name="utility:check" size="small" class="service-icon"></lightning-icon> Valet Parking</li>
+                            <li class="service-item"><lightning-icon icon-name="utility:check" size="small" class="service-icon"></lightning-icon> In-house Sound System</li>
+                            <li class="service-item"><lightning-icon icon-name="utility:check" size="small" class="service-icon"></lightning-icon> On-site Catering</li>
+                            <li class="service-item"><lightning-icon icon-name="utility:check" size="small" class="service-icon"></lightning-icon> Air Conditioning</li>
+                        </ul>
+                    </div>
+                    <div class="feature-image">
+                        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=800" alt="Luxurious hotel room amenities">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Venue Rules Section -->
+            <section class="content-section">
+                <div class="content-container feature-grid">
+                    <div class="feature-text">
+                        <h2>Venue Rules</h2>
+                        <ul>
+                            <li>No outside food or beverages allowed without prior consent.</li>
+                            <li>Music must be lowered after 10:00 PM.</li>
+                            <li>All decorations must be approved by venue management.</li>
+                            <li>Smoking is permitted only in designated outdoor areas.</li>
+                        </ul>
+                    </div>
+                    <div class="feature-image">
+                        <img src="https://plus.unsplash.com/premium_photo-1676320103087-4aec0a09088f?q=80&w=1228&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMJA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Hotel reception area">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Image Gallery Section -->
+            <section class="content-section" if:true={galleryImageUrls}>
+                <div class="content-container">
+                    <h2 class="section-title">Image Gallery</h2>
+                    <div class="gallery-container">
+                        <div class="image-scroller">
+                            <template for:each={galleryImageUrls} for:item="imgSrc">
+                                <img key={imgSrc} src={imgSrc} alt="Venue gallery image" class="gallery-image"/>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reviews Section -->
+            <section class="content-section section-alt-bg">
+                <div class="content-container">
+                    <h2 class="section-title">What Our Clients Say</h2>
+                    <br/>
+                    <div class="reviews-grid">
+                        <div class="review-card">
+                            <blockquote>"The best platform for event management, period. It saved us countless hours and made booking our annual conference a breeze."</blockquote>
+                            <cite>Priya Sharma, Event Coordinator</cite>
+                        </div>
+                        <div class="review-card">
+                            <blockquote>"A game-changer! The AI package generator suggested options we hadn't even thought of. Highly recommended."</blockquote>
+                            <cite>Rajesh Kumar, Marketing Head</cite>
+                        </div>
+                        <div class="review-card">
+                            <blockquote>"Elegant, intuitive, and powerful. The customer support is also top-notch. Five stars from our team!"</blockquote>
+                            <cite>Anjali Desai, Startup Founder</cite>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </template>
+
+        <template if:true={error}>
+            <div class="error-container">
+                <p>Sorry, we couldn't load the venue details.</p>
+            </div>
+        </template>
+    </div>
+</template>

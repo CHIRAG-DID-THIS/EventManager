@@ -1,0 +1,80 @@
+.slds-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.slds-card__header {
+    background: linear-gradient(135deg, #1589ee 0%, #0070d2 100%);
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+
+.slds-card__header .slds-card__header-title {
+    color: white;
+    font-weight: 600;
+}
+
+.slds-form-element__label {
+    font-weight: 500;
+    color: #3e3e3c;
+}
+
+.slds-input,
+.slds-textarea,
+.slds-combobox__input {
+    border-radius: 4px;
+    border: 1px solid #d8dde6;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.slds-input:focus,
+.slds-textarea:focus,
+.slds-combobox__input:focus {
+    border-color: #1589ee;
+    box-shadow: 0 0 0 2px rgba(21, 137, 238, 0.1);
+}
+
+.slds-button_brand {
+    background: linear-gradient(135deg, #1589ee 0%, #0070d2 100%);
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.slds-button_brand:hover {
+    background: linear-gradient(135deg, #0070d2 0%, #005fb2 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.slds-button_neutral {
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+}
+
+.slds-button_neutral:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.slds-text-color_weak {
+    font-style: italic;
+}
+
+/* Loading state styling */
+.slds-spinner_container {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .slds-col.slds-medium-size_1-of-2 {
+        width: 100%;
+    }
+    
+    .slds-p-around_medium {
+        padding: 1rem;
+    }
+}

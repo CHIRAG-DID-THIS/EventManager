@@ -1,0 +1,53 @@
+.footer-container {
+    display: block;
+    background-color: #181818; /* A soft black */
+    color: #ffffff; /* CHANGED - All text is now white */
+    padding: 2rem 1.5rem;
+    font-size: 0.9rem;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    gap: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-info {
+    text-align: center;
+    flex-grow: 1; /* Allows it to take available space */
+}
+
+.footer-links {
+    display: inline-block;
+    margin-left: 1.5rem;
+}
+
+.footer-links a {
+    color: #ffffff; /* CHANGED - Link color is now white */
+    text-decoration: none;
+    margin: 0 0.75rem;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.footer-action {
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    color:#ffffff;
+}
+
+/* Style the Back to Top button for the dark background */
+.back-to-top-button {
+    --slds-c-button-color-background: #ffffff;
+    --slds-c-button-color-border: #ffffff;
+    --slds-c-button-text-color: #000000; /* CORRECTED PREFIX */
+    --slds-c-button-color-background-hover: #e0e0e0;
+}

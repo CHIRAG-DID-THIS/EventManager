@@ -1,0 +1,132 @@
+/* --- NEW: PERCENTAGE LOADER STYLES --- */
+.percentage-display {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.progress-bar {
+  width: 100%;
+  max-width: 300px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0 auto 1.5rem auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.progress-bar-inner {
+  height: 100%;
+  width: 0%; /* Starts at 0% width */
+  background-color: #ffffff;
+  border-radius: 4px;
+  transition: width 0.4s ease-out; /* Smooth animation for width changes */
+}
+
+/* --- STATUS OVERLAY STYLING --- */
+.status-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(24, 24, 24, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.status-content { text-align: center; color: white; }
+.status-title { font-size: 1.75rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+.status-text { font-size: 1.1rem; color: #d1d1d1; margin-bottom: 2rem; }
+
+/* --- PRIMARY THEME & OTHER STYLES (UNCHANGED) --- */
+:host {
+  --sds-c-button-icon-color-foreground-hover: #ea001e; /* Salesforce standard red for delete */
+  --primary-blue: #00529F;
+  --light-blue: #f1f8ff;
+  --border-color: #dce4f0;
+  --card-background: #ffffff;
+  --page-background: #f4f6f9;
+  --text-primary: #181818;
+  --text-secondary: #5c5c5c;
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --radius: 12px;
+}
+
+/* --- MAIN LAYOUT (No Changes) --- */
+.page-container { background-color: var(--page-background); padding: 2rem; font-family: 'Salesforce Sans', Arial, sans-serif; }
+.card { max-width: 1100px; margin: 0 auto; background: var(--card-background); border: 1px solid var(--border-color); border-radius: var(--radius); box-shadow: var(--shadow-medium); }
+.form-header { display: flex; align-items: center; gap: 1.5rem; padding: 2rem; background-color: var(--light-blue); border-bottom: 1px solid var(--border-color); border-top-left-radius: var(--radius); border-top-right-radius: var(--radius); }
+.form-header lightning-icon { --sds-c-icon-color-foreground-default: var(--primary-blue); background: white; padding: 1rem; border-radius: 50%; box-shadow: var(--shadow-soft); }
+.form-header h1 { font-size: 1.75rem; font-weight: 700; color: var(--text-primary); margin: 0; }
+.form-header p { font-size: 1rem; color: var(--text-secondary); margin-top: 0.25rem; }
+.form-section { padding: 2rem; }
+.section-header { display: flex; align-items: center; gap: 0.75rem; font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1.5rem; }
+.section-number { background-color: var(--primary-blue); color: white; font-size: 1rem; font-weight: 700; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
+lightning-input, lightning-combobox, lightning-textarea { margin-bottom: 1rem; }
+.subtype-box { background-color: var(--card-background); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; margin-top: 1rem; }
+.subtype-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; align-items: center; padding: 0.5rem 0; }
+.unit-input { max-width: 120px; }
+.summary-header { color: var(--primary-blue); }
+.table-container { border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+.empty-state { border: 2px dashed var(--border-color); border-radius: var(--radius); padding: 3rem 2rem; text-align: center; background-color: var(--page-background); }
+.empty-state lightning-icon { --sds-c-icon-color-foreground-default: #b0b0b0; }
+.empty-state-title { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-top: 1rem; }
+.empty-state-text { color: var(--text-secondary); }
+.form-footer { padding: 1.5rem 2rem; text-align: right; background-color: var(--light-blue); border-top: 1px solid var(--border-color); border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); }
+.styled-button { --sds-c-button-brand-color-background: var(--primary-blue); --sds-c-button-brand-color-border: var(--primary-blue); --sds-c-button-brand-color-background-hover: #004680; --sds-c-button-brand-color-border-hover: #004680; --sds-c-button-radius-border: 6px; }
+.save-button { font-weight: 600; padding-left: 2rem; padding-right: 2rem; }
+.slds-notify { border-radius: 8px; }
+
+.location-container {
+    position: relative;
+}
+
+.city-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 100;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.city-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.city-dropdown li {
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+.city-dropdown li:hover {
+    background-color: #f5f5f5;
+}
+
+.city-dropdown .no-results {
+    padding: 10px 12px;
+    color: #555;
+    font-style: italic;
+    cursor: default;
+}

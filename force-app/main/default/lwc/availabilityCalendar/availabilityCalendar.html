@@ -1,0 +1,25 @@
+<template>
+    <lightning-card title="Availability Calendar" icon-name="utility:date_input">
+        <div class="slds-p-around_medium">
+            <template if:true={recordId}>
+                <lightning-datatable key-field="id" data={rows} columns={columns} hide-checkbox-column>
+                </lightning-datatable>
+
+                <div class="slds-m-top_medium slds-grid slds-gutters">
+                    <div class="slds-col">
+                        <lightning-input type="date" label="Start Date" value={startDate} onchange={handleStartDate}></lightning-input>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-input type="date" label="End Date" value={endDate} onchange={handleEndDate}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-align_absolute-center">
+                        <lightning-button variant="brand" label="Save Block" onclick={saveBlock} disabled={disableSave}></lightning-button>
+                    </div>
+                </div>
+            </template>
+            <template if:false={recordId}>
+                <div class="slds-text-color_error">This component requires a recordId (Venue__c) context.</div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

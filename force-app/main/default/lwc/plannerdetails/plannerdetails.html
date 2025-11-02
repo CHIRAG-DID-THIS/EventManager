@@ -1,0 +1,110 @@
+<template>
+    <c-customerheader user-id={userId}></c-customerheader>
+
+    <div class="page-container">
+        <template if:true={planner}>
+            <div class="main-grid">
+                <div class="main-content">
+                    <div class="planner-header">
+                        <h1 class="planner-name">{planner.Company_Name__c}</h1>
+                    </div>
+
+                    <section class="content-section about-section">
+                        <h2 class="section-title">
+                            <span>About this Planner</span>
+                        </h2>
+                        <div class="about-text">
+                            <lightning-formatted-rich-text value={planner.About__c}></lightning-formatted-rich-text>
+                        </div>
+                    </section>
+                    
+                    <section class="content-section" if:true={selectedVenue}>
+                        <h2 class="section-title">
+                            <lightning-icon icon-name="utility:check" variant="success"></lightning-icon>
+                            <span>Your Selected Venue</span>
+                        </h2>
+                        <div class="venue-card is-selected" data-id={selectedVenue.Id} onclick={handleVenueClick}>
+                            <img src={selectedVenue.heroImageUrl} alt={selectedVenue.VenueName__c} class="venue-image"/>
+                            <div class="venue-details">
+                                <h3>{selectedVenue.VenueName__c}</h3>
+                                <p class="venue-sub-detail">{selectedVenue.Location__c}</p>
+                                <p class="venue-sub-detail">Capacity: {selectedVenue.Capacity__c} people</p>
+                            </div>
+                        </div>
+                    </section>
+                </div> 
+
+                <div class="sidebar-content">
+                    <div class="sticky-sidebar">
+                        <div class="sidebar-card">
+                            <h3 class="sidebar-title">Planner Details</h3>
+                            <div class="planner-contact">
+                                <p><strong>Contact:</strong> {planner.Userdata__r.VendorName__c}</p>
+                                <p><strong>Phone:</strong> {planner.Phone__c}</p>
+                                <p><strong>Location:</strong> {planner.Address__c}, {planner.City__c}</p>
+                            </div>
+                        </div>
+                        <div class="sidebar-card action-card">
+                             <h3 class="sidebar-title">Ready to Book?</h3>
+                             <p>Proceed to select services from this planner for your chosen venue.</p>
+                             <lightning-button
+                                variant="brand"
+                                label="Proceed to Select Services"
+                                onclick={handleProceed}
+                                class="full-width-button">
+                            </lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </div> <section class="content-section" if:true={otherVenues.length}>
+                <h2 class="section-title">
+                    <lightning-icon icon-name="utility:company"></lightning-icon>
+                    <span>Other Venues by this Planner</span>
+                </h2>
+                <div class="venues-grid">
+                    <template for:each={otherVenues} for:item="venue">
+                        <div key={venue.Id} class="venue-card" data-id={venue.Id} onclick={handleVenueClick}>
+                            <img src={venue.heroImageUrl} alt={venue.VenueName__c} class="venue-image"/>
+                            <div class="venue-details">
+                                <h3>{venue.VenueName__c}</h3>
+                                <p class="venue-sub-detail">{venue.Location__c}</p>
+                                <p class="venue-sub-detail">Capacity: {venue.Capacity__c} people</p>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <lightning-icon icon-name="utility:package"></lightning-icon>
+                    <span>Services Offered by this Planner</span>
+                </h2>
+                <div class="services-grid">
+                    <template for:each={servicesOffered} for:item="serviceGroup">
+                        <div key={serviceGroup.type} class="service-card">
+                            <div class="service-card-header">{serviceGroup.type}</div>
+                            <div class="service-card-body">
+                                <template for:each={serviceGroup.subtypes} for:item="subtype">
+                                    <div key={subtype.Id} class="subtype-card">
+                                        <span>{subtype.Service_SubType__c}</span>
+                                        <span class="subtype-price">₹{subtype.Price__c}</span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </section>
+        </template>
+
+        <template if:false={planner}>
+            <div class="slds-p-around_medium">Loading planner details...</div>
+        </template>
+        <template if:true={error}>
+            <div class="slds-p-around_medium">Sorry, we couldn't load the planner details.</div>
+        </template>
+    </div>
+
+    <c-customerfooter></c-customerfooter>
+</template>

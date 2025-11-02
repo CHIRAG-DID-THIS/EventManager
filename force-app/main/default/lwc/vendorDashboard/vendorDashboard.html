@@ -1,0 +1,886 @@
+<template>
+    <c-vendorheader></c-vendorheader>
+    <div class="vendor-dashboard">
+        <!-- Welcome Header Section -->
+        <div class="dashboard-header">
+            <div class="header-content">
+                <h1 class="dashboard-title">
+                    <span class="welcome-text">Welcome, </span>
+                    <span class="company-name">{companyName}</span>
+                </h1>
+                <p class="welcome-subtitle">Manage your venues, services, and bookings</p>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="dashboard-content">
+            <!-- Custom Tab Navigation -->
+            <div class="tab-navigation">
+                <button class={companyTabClass} onclick={handleTabClick} data-tab="company">
+                    <span class="tab-icon">🏢</span>
+                    Company Details
+                </button>
+                <button class={venuesTabClass} onclick={handleTabClick} data-tab="venues">
+                    <span class="tab-icon">🏛️</span>
+                    My Venues ({venueCount})
+                </button>
+                <button class={servicesTabClass} onclick={handleTabClick} data-tab="services">
+                    <span class="tab-icon">⚙️</span>
+                    My Services ({serviceCount})
+                </button>
+                <button class={availabilityTabClass} onclick={handleTabClick} data-tab="availability">
+                    <span class="tab-icon">📅</span>
+                    Set Unavailability
+                </button>
+                <button class={bookingsTabClass} onclick={handleTabClick} data-tab="bookings">
+                    <span class="tab-icon">📋</span>
+                    Upcoming Bookings
+                </button>
+                <button class={analyticsTabClass} onclick={handleTabClick} data-tab="analytics">
+                    <span class="tab-icon">📊</span>
+                    Analytics
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Company Details Tab -->
+                <div class={companyTabContentClass}>
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span class="card-icon">🏢</span>
+                                Company Information
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <template if:true={companyDetails}>
+                                <div class="company-info-grid">
+                                    <div class="info-item">
+                                        <label class="info-label">Company Name</label>
+                                        <div class="info-value">{companyDetails.Company_Name__c}</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <label class="info-label">Phone</label>
+                                        <div class="info-value">{companyDetails.Phone__c}</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <label class="info-label">Address</label>
+                                        <div class="info-value">{companyDetails.Address__c}</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <label class="info-label">City</label>
+                                        <div class="info-value">{companyDetails.City__c}</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <label class="info-label">Company Registration No</label>
+                                        <div class="info-value">{companyDetails.CompanyRegNo__c}</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <label class="info-label">Event Types</label>
+                                        <div class="info-value">{companyDetails.EventType__c}</div>
+                                    </div>
+                                    <div class="info-item full-width">
+                                        <label class="info-label">About</label>
+                                        <div class="info-value">{companyDetails.About__c}</div>
+                                    </div>
+                                    <div class="info-item full-width">
+                                        <label class="info-label">Banking Information</label>
+                                        <div class="info-value">{companyDetails.BankingInfo__c}</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template if:false={companyDetails}>
+                                <div class="empty-state">
+                                    <span class="empty-icon">📄</span>
+                                    <p>No company details available.</p>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Venues Tab -->
+                <div class={venuesTabContentClass}>
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span class="card-icon">🏛️</span>
+                                Your Venues
+                            </h2>
+                            <button class="btn btn-secondary" onclick={openNewVenueModal}>
+                                <span class="btn-icon">+</span>
+                                Add Venue
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <template if:true={vendorVenues.length}>
+                                <div class="venues-grid">
+                                    <template for:each={vendorVenues} for:item="venue">
+                                        <div key={venue.Id} class="venue-card" onclick={openVenueDetails} data-venueid={venue.VenueId}>
+                                            <div class="venue-card-header">
+                                                <h3 class="venue-name">{venue.VenueName}</h3>
+                                                <div class="venue-actions">
+                                                    <button class="btn-icon-small" onclick={openImageUploadModal} data-venueid={venue.VenueId} title="Add Images">
+                                                        <span>📷</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="venue-details">
+                                                <div class="venue-detail">
+                                                    <span class="detail-label">Location:</span>
+                                                    <span class="detail-value">{venue.VenueLocation}</span>
+                                                </div>
+                                                <div class="venue-detail">
+                                                    <span class="detail-label">Capacity:</span>
+                                                    <span class="detail-value">{venue.VenueCapacity}</span>
+                                                </div>
+                                                <div class="venue-detail">
+                                                    <span class="detail-label">Price:</span>
+                                                    <span class="detail-value price">₹{venue.VenuePrice}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                            <template if:false={vendorVenues.length}>
+                                <div class="empty-state">
+                                    <span class="empty-icon">🏛️</span>
+                                    <p>You haven't added any venues yet.</p>
+                                    <button class="btn btn-primary" onclick={openNewVenueModal}>Add Your First Venue</button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Selected Venue Details -->
+                    <template if:true={selectedVenue}>
+                        <div class="content-card selected-venue-card">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    <span class="card-icon">📍</span>
+                                    {selectedVenue.VenueName__c}
+                                </h2>
+                                <button class="btn btn-secondary" onclick={openImageUploadModal} data-venueid={selectedVenue.Id}>
+                                    <span class="btn-icon">📷</span>
+                                    Add Images
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <!-- Hero Image Section -->
+                                <template if:true={heroImageUrl}>
+                                    <div class="venue-hero-image">
+                                        <img src={heroImageUrl} alt="Main venue image" class="hero-image"/>
+                                    </div>
+                                </template>
+                                
+                                <div class="selected-venue-grid">
+                                    <div class="venue-info">
+                                        <div class="info-item">
+                                            <label class="info-label">Location</label>
+                                            <div class="info-value">{selectedVenue.Location__c}</div>
+                                        </div>
+                                        <div class="info-item">
+                                            <label class="info-label">Capacity</label>
+                                            <div class="info-value">{selectedVenue.Capacity__c}</div>
+                                        </div>
+                                        <div class="info-item">
+                                            <label class="info-label">Price</label>
+                                            <div class="info-value price">₹{selectedVenue.Price__c}</div>
+                                        </div>
+                                    </div>
+                                    <template if:true={selectedVenueDescriptionHtml}>
+                                        <div class="venue-description">
+                                            <label class="info-label">Description</label>
+                                            <div class="rich-text-content" lwc:dom="manual"></div>
+                                        </div>
+                                    </template>
+                                    <template if:false={selectedVenueDescriptionHtml}>
+                                        <div class="venue-description">
+                                            <label class="info-label">Description</label>
+                                            <div class="info-value">No description available</div>
+                                        </div>
+                                    </template>
+                                    
+                                    <!-- Gallery Images Section -->
+                                    <template if:true={galleryImageUrls}>
+                                        <div class="venue-gallery-section">
+                                            <label class="info-label">Image Gallery</label>
+                                            <div class="gallery-container">
+                                                <div class="image-scroller">
+                                                    <template for:each={galleryImageUrls} for:item="imgSrc">
+                                                        <img key={imgSrc} src={imgSrc} alt="Venue gallery image" class="gallery-image"/>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- My Services Tab -->
+                <div class={servicesTabContentClass}>
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span class="card-icon">⚙️</span>
+                                Your Services
+                            </h2>
+                            <button class="btn btn-secondary" onclick={openNewServiceModal}>
+                                <span class="btn-icon">+</span>
+                                Add Service
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <template if:true={vendorServices.length}>
+                                <div class="services-table">
+                                    <div class="table-header">
+                                        <div class="table-cell">Service Type</div>
+                                        <div class="table-cell">Sub Type</div>
+                                        <div class="table-cell">Price per Unit</div>
+                                    </div>
+                                    <template for:each={vendorServices} for:item="service">
+                                        <div key={service.Id} class="table-row">
+                                            <div class="table-cell" data-label="Service Type">{service.ServiceType__c}</div>
+                                            <div class="table-cell" data-label="Sub Type">{service.ServiceSubType__c}</div>
+                                            <div class="table-cell price" data-label="Price per Unit">₹{service.PricePerUnit__c}</div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                            <template if:false={vendorServices.length}>
+                                <div class="empty-state">
+                                    <span class="empty-icon">⚙️</span>
+                                    <p>You have not added any services yet.</p>
+                                    <button class="btn btn-primary" onclick={openNewServiceModal}>Add Your First Service</button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Set Unavailability Tab -->
+                <div class={availabilityTabContentClass}>
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span class="card-icon">📅</span>
+                                Set Unavailability for Your Venues
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-subtitle">Select a venue to mark specific dates as unavailable for booking.</p>
+                            <template if:true={vendorVenues.length}>
+                                <div class="availability-list">
+                                    <template for:each={vendorVenues} for:item="venue">
+                                        <div key={venue.Id} class="availability-item">
+                                            <div class="availability-info">
+                                                <h3 class="venue-name">{venue.VenueName}</h3>
+                                                <p class="venue-location">{venue.VenueLocation}</p>
+                                            </div>
+                                            <button class="btn btn-secondary" data-venueid={venue.VenueId} onclick={openUnavailabilityModal}>
+                                                Set Unavailability
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                            <template if:false={vendorVenues.length}>
+                                <div class="empty-state">
+                                    <span class="empty-icon">📅</span>
+                                    <p>You must add a venue before you can set its availability.</p>
+                                    <button class="btn btn-primary" onclick={openNewVenueModal}>Add Your First Venue</button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Bookings Tab -->
+                <div class={bookingsTabContentClass}>
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span class="card-icon">📋</span>
+                                Your Upcoming Bookings
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <template if:true={upcomingBookingsDisplay.length}>
+                                <div class="bookings-list">
+                                    <template for:each={upcomingBookingsDisplay} for:item="booking">
+                                        <div key={booking.Id} class="booking-card">
+                                            <div class="booking-header">
+                                                <h3 class="booking-title">Booking #{booking.Name}</h3>
+                                                <div class="booking-payout">₹{booking._vendorPayout}</div>
+                                            </div>
+                                            <div class="booking-details">
+                                                <div class="booking-detail">
+                                                    <span class="detail-label">Venue:</span>
+                                                    <span class="detail-value">{booking.Package__r.Venue__r.VenueName__c}</span>
+                                                </div>
+                                                <div class="booking-detail">
+                                                    <span class="detail-label">Dates:</span>
+                                                    <span class="detail-value">
+                                                        {booking._formattedStartDate} to {booking._formattedEndDate}
+                                                    </span>
+                                                </div>
+                                                <template if:true={booking._services.length}>
+                                                    <div class="booking-services">
+                                                        <span class="detail-label">Services:</span>
+                                                        <div class="services-list">
+                                                            <template for:each={booking._services} for:item="svc">
+                                                                <div key={svc.serviceId} class="service-item">
+                                                                    <div class="service-name">{svc.serviceType} - {svc.serviceSubType}</div>
+                                                                    <div class="service-details">
+                                                                        <span>Units: {svc.units}</span>
+                                                                        <span>Price/Unit: ₹{svc.pricePerUnit}</span>
+                                                                        <span class="service-total">Total: ₹{svc.total}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                            <template if:false={upcomingBookings.length}>
+                                <div class="empty-state">
+                                    <span class="empty-icon">📋</span>
+                                    <p>You have no upcoming bookings.</p>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div class={analyticsTabContentClass}>
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span class="card-icon">📊</span>
+                                Business Analytics Dashboard
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <!-- Key Metrics Overview -->
+                            <div class="analytics-overview">
+                                <div class="metric-card">
+                                    <div class="metric-icon">🏛️</div>
+                                    <div class="metric-content">
+                                        <div class="metric-value">{analyticsData.totalVenues}</div>
+                                        <div class="metric-label">Total Venues</div>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon">⚙️</div>
+                                    <div class="metric-content">
+                                        <div class="metric-value">{analyticsData.totalServices}</div>
+                                        <div class="metric-label">Total Services</div>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon">📋</div>
+                                    <div class="metric-content">
+                                        <div class="metric-value">{analyticsData.activeBookings}</div>
+                                        <div class="metric-label">Active Bookings</div>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon">💰</div>
+                                    <div class="metric-content">
+                                        <div class="metric-value">₹{analyticsData.totalRevenue}</div>
+                                        <div class="metric-label">Total Revenue</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Charts and Detailed Analytics -->
+                            <div class="analytics-charts">
+                                <!-- Service Distribution Chart -->
+                                <div class="chart-container">
+                                    <h3 class="chart-title">Service Type Distribution</h3>
+                                    <div class="chart-content">
+                                        <template if:true={analyticsData.serviceDistribution.length}>
+                                            <template for:each={analyticsData.serviceDistribution} for:item="service">
+                                                <div key={service.type} class="chart-bar">
+                                                    <div class="bar-label">{service.type}</div>
+                                                    <div class="bar-container">
+                                                        <div class="bar-fill" style={service.barStyle}></div>
+                                                        <span class="bar-value">{service.count}</span>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </template>
+                                        <template if:false={analyticsData.serviceDistribution.length}>
+                                            <div class="empty-chart">No service data available</div>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <!-- Revenue Analysis -->
+                                <div class="chart-container">
+                                    <h3 class="chart-title">Revenue Analysis</h3>
+                                    <div class="chart-content">
+                                        <div class="revenue-stats">
+                                            <div class="stat-item">
+                                                <span class="stat-label">Average Booking Value:</span>
+                                                <span class="stat-value">₹{analyticsData.avgBookingValue}</span>
+                                            </div>
+                                            <div class="stat-item">
+                                                <span class="stat-label">Highest Revenue Service:</span>
+                                                <span class="stat-value">{analyticsData.topRevenueService}</span>
+                                            </div>
+                                            <div class="stat-item">
+                                                <span class="stat-label">Most Popular Venue:</span>
+                                                <span class="stat-value">{analyticsData.topVenue}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Venue Performance -->
+                                <div class="chart-container">
+                                    <h3 class="chart-title">Venue Performance</h3>
+                                    <div class="chart-content">
+                                        <template if:true={analyticsData.venuePerformance.length}>
+                                            <template for:each={analyticsData.venuePerformance} for:item="venue">
+                                                <div key={venue.name} class="performance-item">
+                                                    <div class="performance-header">
+                                                        <span class="venue-name">{venue.name}</span>
+                                                        <span class="venue-bookings">{venue.bookings} bookings</span>
+                                                    </div>
+                                                    <div class="performance-bar">
+                                                        <div class="performance-fill" style={venue.performanceStyle}></div>
+                                                    </div>
+                                                    <div class="performance-revenue">₹{venue.revenue}</div>
+                                                </div>
+                                            </template>
+                                        </template>
+                                        <template if:false={analyticsData.venuePerformance.length}>
+                                            <div class="empty-chart">No venue performance data available</div>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <!-- Service Pricing Analysis -->
+                                <div class="chart-container">
+                                    <h3 class="chart-title">Service Pricing Analysis</h3>
+                                    <div class="chart-content">
+                                        <template if:true={analyticsData.pricingAnalysis.length}>
+                                            <div class="pricing-grid">
+                                                <template for:each={analyticsData.pricingAnalysis} for:item="pricing">
+                                                    <div key={pricing.name} class="pricing-card">
+                                                        <div class="pricing-service">{pricing.name}</div>
+                                                        <div class="pricing-details">
+                                                            <div class="pricing-stat">
+                                                                <span class="pricing-label">Price:</span>
+                                                                <span class="pricing-value">₹{pricing.price}</span>
+                                                            </div>
+                                                            <div class="pricing-stat">
+                                                                <span class="pricing-label">Type:</span>
+                                                                <span class="pricing-value">{pricing.type}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                        <template if:false={analyticsData.pricingAnalysis.length}>
+                                            <div class="empty-chart">No pricing data available</div>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <!-- Revenue by Month Chart -->
+                                <div class="chart-container">
+                                    <h3 class="chart-title">Revenue by Month</h3>
+                                    <div class="chart-content">
+                                        <template if:true={analyticsData.revenueByMonth.length}>
+                                            <template for:each={analyticsData.revenueByMonth} for:item="monthData">
+                                                <div key={monthData.month} class="chart-bar">
+                                                    <div class="bar-label">{monthData.month}</div>
+                                                    <div class="bar-container">
+                                                        <div class="bar-fill" style={monthData.barStyle}></div>
+                                                        <span class="bar-value">₹{monthData.revenue}</span>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </template>
+                                        <template if:false={analyticsData.revenueByMonth.length}>
+                                            <div class="empty-chart">No monthly revenue data available</div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Business Insights -->
+                            <div class="insights-section">
+                                <h3 class="insights-title">📈 Business Insights</h3>
+                                <div class="insights-grid">
+                                    <template for:each={analyticsData.insights} for:item="insight">
+                                        <div key={insight.title} class="insight-card">
+                                            <div class="insight-content">
+                                                <div class="insight-title">{insight.title}</div>
+                                                <div class="insight-description">{insight.description}</div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Venue Modal -->
+    <template if:true={isNewVenueModalOpen}>
+        <div class="modal-overlay" onclick={handleModalOverlayClick}>
+            <div class="modal" onclick={handleModalContentClick}>
+                <div class="modal-header">
+                    <h2 class="modal-title">Add a Venue</h2>
+                    <button class="modal-close" onclick={closeNewVenueModal}>×</button>
+                </div>
+                <div class="modal-body">
+                    <!-- Venue Search Section -->
+                    <div class="form-section">
+                        <h3 class="section-title">Search for Existing Venue</h3>
+                        <p class="section-description">Search for an existing venue. If you can't find it, you'll be able to create a new one.</p>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="venue-search-input">Search Venues by Name or Location</label>
+                            <div class="search-container" style="position: relative;">
+                                <input 
+                                    type="text" 
+                                    id="venue-search-input"
+                                    class="form-input"
+                                    name="venueSearch"
+                                    placeholder="Type at least 2 characters to search..."
+                                    value={venueSearchTerm}
+                                    onchange={handleVenueSearchInput}
+                                    onkeyup={handleVenueSearchInput}
+                                />
+                                
+                                <!-- Search Results Dropdown -->
+                                <template if:true={showSearchResults}>
+                                    <div class="search-dropdown" style="position: absolute; z-index: 1000; width: 100%; background: white; border: 1px solid #d9dbdd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-height: 200px; overflow-y: auto;">
+                                        <template if:true={venueSearchResults}>
+                                            <template for:each={venueSearchResults} for:item="venue">
+                                                <div key={venue.value} 
+                                                     class="search-result-item" 
+                                                     data-venue-id={venue.value} 
+                                                     onclick={handleVenueSelectFromDropdown}
+                                                     style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #f3f3f3;">
+                                                    <span>{venue.label}</span>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </template>
+                                
+                                <!-- No Results Message -->
+                                <template if:true={showNoResults}>
+                                    <div class="search-dropdown" style="position: absolute; z-index: 1000; width: 100%; background: white; border: 1px solid #d9dbdd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <div style="padding: 8px 12px; color: #666;">
+                                            <span>No venues found</span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Selected Venue Details -->
+                        <template if:true={selectedVenueId}>
+                            <div class="selected-venue-details" style="background: #f8f9fa; padding: 16px; border-radius: 4px; margin-top: 16px;">
+                                <h4 style="margin: 0 0 12px 0; color: #333;">Selected Venue Details</h4>
+                                <template if:true={selectedVenueDetails.name}>
+                                    <p style="margin: 4px 0;"><strong>Name:</strong> {selectedVenueDetails.name}</p>
+                                </template>
+                                <template if:true={selectedVenueDetails.location}>
+                                    <p style="margin: 4px 0;"><strong>Location:</strong> {selectedVenueDetails.location}</p>
+                                </template>
+                                <template if:true={selectedVenueDetails.capacity}>
+                                    <p style="margin: 4px 0;"><strong>Capacity:</strong> {selectedVenueDetails.capacity} people</p>
+                                </template>
+
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="plannerVenuePrice">Your Price for this Venue *</label>
+                                <input type="number" 
+                                       id="plannerVenuePrice" 
+                                       class="form-input" 
+                                       step="100" 
+                                       value={plannerVenuePrice} 
+                                       onchange={handlePriceChange}
+                                       required>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Divider -->
+                    <template if:false={selectedVenueId}>
+                        <div class="divider" style="margin: 24px 0; text-align: center; position: relative;">
+                            <hr style="border: none; border-top: 1px solid #ddd;">
+                            <span style="background: white; padding: 0 16px; color: #666; position: absolute; top: -10px; left: 50%; transform: translateX(-50%);">OR</span>
+                        </div>
+
+                        <!-- Create New Venue Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Create a New Venue</h3>
+                            <form class="form">
+                                <div class="form-group">
+                                    <label class="form-label" for="venueName">Venue Name *</label>
+                                    <input type="text" id="venueName" class="form-input" name="VenueName__c" onchange={handleNewVenueChange} required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="venueLocation">Location (Full Address) *</label>
+                                    <textarea id="venueLocation" class="form-textarea" name="Location__c" onchange={handleNewVenueChange} required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="venueCapacity">Capacity</label>
+                                    <input type="number" id="venueCapacity" class="form-input" name="Capacity__c" onchange={handleNewVenueChange}>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="venueDescription">Description</label>
+                                    <div class="rich-text-editor">
+                                        <textarea id="venueDescription" class="form-textarea rich-text" name="Descriptions__c" onchange={handleNewVenueChange} placeholder="Enter venue description..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="venuePrice">Your Price for this Venue *</label>
+                                    <input type="number" id="venuePrice" class="form-input" name="Price__c" step="100" onchange={handleNewVenueChange} required>
+                                </div>
+                            </form>
+                        </div>
+                    </template>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick={closeNewVenueModal}>Cancel</button>
+                    <template if:true={selectedVenueId}>
+                        <button class="btn btn-primary" onclick={linkVenue}>Add Selected Venue</button>
+                    </template>
+                    <template if:false={selectedVenueId}>
+                        <button class="btn btn-primary" onclick={saveNewVenueAndLink}>Save and Add Venue</button>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Unavailability Modal -->
+    <template if:true={isUnavailabilityModalOpen}>
+        <div class="modal-overlay" onclick={handleModalOverlayClick}>
+            <div class="modal" onclick={handleModalContentClick}>
+                <div class="modal-header">
+                    <h2 class="modal-title">Set Unavailable Dates</h2>
+                    <button class="modal-close" onclick={closeUnavailabilityModal}>×</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form">
+                        <div class="form-group">
+                            <label class="form-label" for="startDate">Start Date *</label>
+                            <input type="date" id="startDate" class="form-input" name="StartDate__c" onchange={handleUnavailabilityChange} required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="endDate">End Date *</label>
+                            <input type="date" id="endDate" class="form-input" name="EndDate__c" onchange={handleUnavailabilityChange} required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick={closeUnavailabilityModal}>Cancel</button>
+                    <button class="btn btn-primary" onclick={saveUnavailability}>Save Unavailability</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Image Upload Modal -->
+    <template if:true={isImageUploadModalOpen}>
+        <div class="modal-overlay" onclick={handleModalOverlayClick}>
+            <div class="modal modal-large" onclick={handleModalContentClick}>
+                <div class="modal-header">
+                    <h2 class="modal-title">Add Images to Venue Description</h2>
+                    <template if:true={selectedVenueForImages}>
+                        <p class="modal-subtitle">Venue: {selectedVenueForImages.VenueName}</p>
+                    </template>
+                    <button class="modal-close" onclick={closeImageUploadModal}>×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Upload Images</label>
+                        <div class="file-upload-area">
+                            <lightning-file-upload
+                                label="Upload Images"
+                                name="fileUploader"
+                                accept=".jpg,.jpeg,.png,.gif,.bmp,.webp"
+                                onuploadfinished={handleUploadFinished}
+                                multiple>
+                            </lightning-file-upload>
+                        </div>
+                    </div>
+                    <template if:true={uploadedFiles.length}>
+                        <div class="uploaded-files">
+                            <h3 class="uploaded-title">
+                                <span class="title-icon">📷</span>
+                                Uploaded Images ({uploadedFiles.length})
+                            </h3>
+                            <div class="files-grid">
+                                <template for:each={uploadedFiles} for:item="file">
+                                    <div key={file.documentId} class="file-item">
+                                        <div class="file-preview">
+                                            <span class="file-icon">🖼️</span>
+                                        </div>
+                                        <div class="file-info">
+                                            <div class="file-name">{file.name}</div>
+                                            <div class="file-status">
+                                                <span class="status-icon">✅</span>
+                                                Ready to add
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                            <div class="upload-summary">
+                                <span class="summary-icon">ℹ️</span>
+                                <span class="summary-text">
+                                    {uploadedFiles.length} image{uploadedFilesPlural} ready to be added to venue description
+                                </span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick={closeImageUploadModal}>Cancel</button>
+                    <button class="btn btn-primary" onclick={saveImagesToDescription} disabled={isUploadButtonDisabled}>
+                        <span class="btn-icon">+</span>
+                        Add Images to Description
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Photo Gallery Modal -->
+    <template if:true={isPhotoGalleryModalOpen}>
+        <div class="modal-overlay" onclick={handleModalOverlayClick}>
+            <div class="modal modal-large" onclick={handleModalContentClick}>
+                <div class="modal-header">
+                    <h2 class="modal-title">Photo Gallery</h2>
+                    <template if:true={selectedVenueForGallery}>
+                        <p class="modal-subtitle">Venue: {selectedVenueForGallery.VenueName}</p>
+                    </template>
+                    <button class="modal-close" onclick={closePhotoGalleryModal}>×</button>
+                </div>
+                <div class="modal-body">
+                    <template if:true={galleryImages.length}>
+                        <div class="gallery-container">
+                            <div class="gallery-grid">
+                                <template for:each={galleryImages} for:item="imageUrl">
+                                    <div key={imageUrl} class="gallery-item">
+                                        <img src={imageUrl} alt="Venue gallery image" class="gallery-image" />
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:false={galleryImages.length}>
+                        <div class="empty-gallery">
+                            <div class="empty-icon">🖼️</div>
+                            <h3>No Images Found</h3>
+                            <p>This venue doesn't have any images in its description yet.</p>
+                            <p>Use the "Add Images" button to upload photos.</p>
+                        </div>
+                    </template>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick={closePhotoGalleryModal}>Close</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- New Service Modal -->
+    <template if:true={isNewServiceModalOpen}>
+        <div class="modal-overlay" onclick={handleModalOverlayClick}>
+            <div class="modal" onclick={handleModalContentClick}>
+                <div class="modal-header">
+                    <h2 class="modal-title">Add New Service</h2>
+                    <button class="modal-close" onclick={closeNewServiceModal}>×</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form">
+                        <div class="form-group">
+                            <label class="form-label" for="serviceType">Service Type *</label>
+                            <select id="serviceType" class="form-input" name="Service_Type__c" onchange={handleNewServiceChange} required>
+                                <option value="">Select Service Type</option>
+                                <template for:each={serviceTypeOptions} for:item="option">
+                                    <option key={option.value} value={option.value}>{option.label}</option>
+                                </template>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="serviceSubType">Service Sub-Type *</label>
+                            <select id="serviceSubType" class="form-input" name="Service_SubType__c" onchange={handleNewServiceChange} required disabled={isServiceSubTypeDisabled}>
+                                <option value="">Select Sub-Type</option>
+                                <template for:each={serviceSubTypeOptions} for:item="option">
+                                    <option key={option.value} value={option.value}>{option.label}</option>
+                                </template>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="pricePerUnit">Price Per Unit *</label>
+                            <input type="number" id="pricePerUnit" class="form-input" name="Price__c" onchange={handleNewServiceChange} step="0.01" min="0" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick={closeNewServiceModal}>Cancel</button>
+                    <button class="btn btn-primary" onclick={createService}>
+                        <span class="btn-icon">+</span>
+                        Add Service
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Venue Details Modal -->
+    <template if:true={isVenueDetailsOpen}>
+        <div class="modal-overlay" onclick={handleModalOverlayClick}>
+            <div class="modal venue-details-modal" onclick={handleModalContentClick}>
+                <div class="modal-header">
+                    <h2 class="modal-title">
+                        <span class="modal-icon">📍</span>
+                        Venue Details
+                    </h2>
+                    <button class="modal-close" onclick={closeVenueDetails}>×</button>
+                </div>
+                <div class="modal-body venue-modal-body">
+                    <!-- New Venue Details Component -->
+                    <c-venue-details-for-vendor venue-id={selectedVenueId}></c-venue-details-for-vendor>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick={closeVenueDetails}>Close</button>
+                    <!-- <button class="btn btn-primary" onclick={openImageUploadModal} data-venueid={selectedVenueId}>
+                        <span class="btn-icon">📷</span>
+                        Manage Images
+                    </button> -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <c-customerfooter></c-customerfooter>
+</template>

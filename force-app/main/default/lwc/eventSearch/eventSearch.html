@@ -1,0 +1,32 @@
+<template>
+    <lightning-card title="Find the Perfect Venue" icon-name="standard:search">
+        <div class="slds-p-around_medium">
+            <lightning-layout multiple-rows="true" vertical-align="end">
+                <!-- Search Input Fields -->
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="4" padding="around-small">
+                    <lightning-input label="Location or Venue Name" value={location} onchange={handleInputChange} name="location" required></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="3" padding="around-small">
+                    <lightning-input type="date" label="Event Date" value={eventDate} onchange={handleInputChange} name="eventDate"></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="3" padding="around-small">
+                    <lightning-input type="number" label="Guest Capacity" value={capacity} onchange={handleInputChange} name="capacity"></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="2" padding="around-small">
+                    <lightning-button label="Search" variant="brand" onclick={handleSearch} class="slds-button_stretch"></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <!-- Results Section -->
+            <div class="slds-m-top_large">
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Searching..." size="medium"></lightning-spinner>
+                </template>
+                <template if:false={isLoading}>
+                    <!-- Pass the search results to the child component for display -->
+                    <c-venue-results search-results={searchResults}></c-venue-results>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>

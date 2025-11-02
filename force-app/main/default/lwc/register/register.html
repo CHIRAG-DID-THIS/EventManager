@@ -1,0 +1,25 @@
+<template>
+    <form>
+        <h2>Sign Up</h2>
+
+        <lightning-radio-group
+            name="userType"
+            label="Register As"
+            options={userTypeOptions}
+            value={userType}
+            onchange={handleUserTypeChange}>
+        </lightning-radio-group>
+
+        <lightning-input label="First Name" value={firstName} onchange={handleChange} data-id="firstName"></lightning-input>
+        <lightning-input label="Last Name" value={lastName} onchange={handleChange} data-id="lastName"></lightning-input>
+        <lightning-input label="Email" type="email" value={email} onchange={handleChange} data-id="email"></lightning-input>
+        <lightning-input label="Contact No" type="tel" value={contactNo} onchange={handleChange} data-id="contactNo"></lightning-input>
+        <!-- <lightning-input label="Password" type="password" value={password} onchange={handleChange} data-id="password"></lightning-input> -->
+
+        <template if:true={isVendor}>
+            <lightning-input label="Vendor Name" value={vendorName} onchange={handleChange} data-id="vendorName"></lightning-input>
+        </template>
+
+        <lightning-button label="Register" onclick={handleRegister} variant="brand"></lightning-button>
+    </form>
+</template>

@@ -1,0 +1,147 @@
+<template>
+    <div class="setup-container slds-p-around_medium">
+        <header class="slds-text-heading_large slds-text-align_center slds-p-bottom_large header-glow">
+            Vendor Onboarding: Register Your Company
+        </header>
+
+        <!-- Setup Card with Cryptoflow Styling -->
+        <div class="setup-card slds-card slds-p-around_large">
+
+            <template if:true={userDataId}>
+                <!-- Success/Error Message Area -->
+                <template if:true={errorMessage}>
+                    <div class="slds-m-bottom_medium error-message slds-text-align_center">
+                        <p>{errorMessage}</p>
+                    </div>
+                </template>
+
+                <!-- Status Indicator -->
+                <div class="slds-text-align_center slds-m-bottom_large status-text">
+                    <p>Profile ID: <span class="profile-id-glow">{userDataId}</span></p>
+                    <p class="slds-text-heading_small slds-m-top_small">
+                        Enter your company details below to activate your vendor account.
+                    </p>
+                </div>
+
+                <!-- Input Fields -->
+                <div class="slds-grid slds-wrap slds-gutters_small">
+
+                    <!-- Company Name -->
+                    <lightning-input
+                        class="slds-col slds-size_1-1 slds-p-horizontal_small input-field-custom"
+                        label="Company Name"
+                        name="CompanyName"
+                        value={companyDetails.CompanyName}
+                        onchange={handleInputChange}
+                        required
+                    ></lightning-input>
+
+                    <!-- Registration Number -->
+                    <lightning-input
+                        class="slds-col slds-size_1-1 slds-medium-size_1-2 slds-p-horizontal_small input-field-custom"
+                        label="Company Registration No."
+                        name="CompanyRegNo"
+                        value={companyDetails.CompanyRegNo}
+                        onchange={handleInputChange}
+                        required
+                    ></lightning-input>
+
+                    <!-- Phone -->
+                    <lightning-input
+                        class="slds-col slds-size_1-1 slds-medium-size_1-2 slds-p-horizontal_small input-field-custom"
+                        label="Phone Number"
+                        name="Phone"
+                        type="tel"
+                        value={companyDetails.Phone}
+                        onchange={handleInputChange}
+                        required
+                    ></lightning-input>
+
+                    <!-- City -->
+                    <lightning-input
+                        class="slds-col slds-size_1-1 slds-medium-size_1-2 slds-p-horizontal_small input-field-custom"
+                        label="City"
+                        name="City"
+                        value={companyDetails.City}
+                        onchange={handleInputChange}
+                        required
+                    ></lightning-input>
+                    
+                    <!-- Event Type (Picklist Example) -->
+                    <lightning-combobox
+                        class="slds-col slds-size_1-1 slds-medium-size_1-2 slds-p-horizontal_small input-field-custom"
+                        label="Primary Event Type"
+                        name="EventType"
+                        value={companyDetails.EventType}
+                        options={eventTypeOptions}
+                        onchange={handleInputChange}
+                        required
+                    ></lightning-combobox>
+
+                    <!-- Banking Info -->
+                    <lightning-input
+                        class="slds-col slds-size_1-1 slds-p-horizontal_small input-field-custom"
+                        label="Banking Info (Account/IBAN for Payouts)"
+                        name="BankingInfo"
+                        value={companyDetails.BankingInfo}
+                        onchange={handleInputChange}
+                        required
+                    ></lightning-input>
+                    
+                    <!-- Address -->
+                    <lightning-textarea
+                        class="slds-col slds-size_1-1 slds-p-horizontal_small input-field-custom"
+                        label="Physical Address"
+                        name="Address"
+                        value={companyDetails.Address}
+                        onchange={handleInputChange}
+                        required
+                    ></lightning-textarea>
+
+                    <!-- About -->
+                    <lightning-textarea
+                        class="slds-col slds-size_1-1 slds-p-horizontal_small input-field-custom"
+                        label="About Your Company (Max 500 chars)"
+                        name="About"
+                        value={companyDetails.About}
+                        onchange={handleInputChange}
+                        max-length="500"
+                    ></lightning-textarea>
+                    
+                    <!-- Unavailable/Notes (Simple initial setup) -->
+                    <lightning-input
+                        class="slds-col slds-size_1-1 slds-p-horizontal_small input-field-custom"
+                        label="Initial Unavailable Dates/Notes"
+                        name="Unavailable"
+                        value={companyDetails.Unavailable}
+                        onchange={handleInputChange}
+                        placeholder="e.g., Unavailable Dec 24-26"
+                    ></lightning-input>
+
+                </div>
+                
+                <div class="slds-text-align_center slds-m-top_large">
+                    <lightning-button
+                        label="Save & Activate Company"
+                        onclick={handleSave}
+                        disabled={isFormInvalid}
+                        class="action-button-glow"
+                        variant="brand"
+                    ></lightning-button>
+                </div>
+
+                <template if:true={isLoading}>
+                    <div class="slds-align_absolute-center slds-m-top_large loading-overlay">
+                        <lightning-spinner alternative-text="Saving Company Details" size="medium"></lightning-spinner>
+                    </div>
+                </template>
+
+            </template>
+            <template if:false={userDataId}>
+                <div class="slds-text-align_center slds-m-top_large error-message">
+                    <p>Error: Could not retrieve vendor profile data. Please ensure you are logged in.</p>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

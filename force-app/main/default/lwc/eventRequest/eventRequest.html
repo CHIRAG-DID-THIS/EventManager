@@ -1,0 +1,133 @@
+<template>
+    <c-customerheader user-id={userId}></c-customerheader>
+
+    <div class="page-container">
+        <div class="card">
+            <div class="form-header">
+                <lightning-icon icon-name="utility:event" size="medium"></lightning-icon>
+                <div class="header-text">
+                    <h1>Plan Your Perfect Event</h1>
+                    <p>Fill in the details below and we'll curate the best packages for you.</p>
+                </div>
+            </div>
+
+            <section class="form-section">
+                <h2 class="section-header">
+                    <span class="section-number">1</span>
+                    Event Details
+                </h2>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-input name="startDate" label="Start Date" type="date" value={eventData.startDate} onchange={handleDetailChange} required></lightning-input>
+<div class="location-container">
+                            <lightning-input 
+                                name="location" 
+                                label="Location" 
+                                type="text" 
+                                value={eventData.location} 
+                                onfocus={handleLocationFocus}
+                                onblur={handleLocationBlur}
+                                onkeyup={handleLocationChange}
+                                required
+                                autocomplete="off">
+                            </lightning-input>
+                            <template if:true={showCityDropdown}>
+                                <div class="city-dropdown">
+                                    <ul>
+                                        <template if:true={hasFilteredCities}>
+                                            <template for:each={filteredCities} for:item="city">
+                                                <li key={city} data-city={city} onmousedown={handleCitySelect}>
+                                                    {city}
+                                                </li>
+                                            </template>
+                                        </template>
+                                        <template if:false={hasFilteredCities}>
+                                            <li class="no-results">No cities found</li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </template>
+                        </div>                        
+                        <lightning-input name="budget" label="Budget" type="number" formatter="currency" step="100" value={eventData.budget} onchange={handleDetailChange}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-input name="endDate" label="End Date" type="date" min={eventData.startDate} value={eventData.endDate} onchange={handleDetailChange} required></lightning-input>
+                        <lightning-combobox name="eventType" label="Event Type" value={eventData.eventType} placeholder="-- Select Type --" options={eventTypeOptions} onchange={handleDetailChange} required></lightning-combobox>
+                        <lightning-input name="guestCount" label="Number of Guests" type="number" value={eventData.guestCount} onchange={handleDetailChange}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-m-top_small">
+                         <lightning-textarea name="description" label="Additional Details or Description" value={eventData.description} onchange={handleDetailChange}></lightning-textarea>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-header">
+                    <span class="section-number">2</span>
+                    Requested Services
+                </h2>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-combobox name="serviceType" label="Service Category" value={selectedServiceType} placeholder="-- Select a Category --" options={serviceTypeOptions} onchange={handleServiceTypeChange}></lightning-combobox>
+                        
+                        <template if:true={subTypeOptions.length}>
+                            <div class="slds-m-top_medium subtype-box">
+                                <h3 class="slds-text-heading_small slds-m-bottom_medium">Select Sub-Types for: <strong>{selectedServiceType}</strong></h3>
+                                <template for:each={subTypeOptions} for:item="subType">
+                                    <div key={subType.value} class="subtype-row">
+                                        <lightning-input type="checkbox" label={subType.label} data-name={subType.value} onchange={handleSubtypeSelection}></lightning-input>
+                                        <lightning-input type="number" label="Units" variant="label-hidden" placeholder="Units" data-name={subType.value} disabled={subType.disabled} onchange={handleUnitChange} class="unit-input"></lightning-input>
+                                    </div>
+                                </template>
+                                <div class="slds-m-top_medium">
+                                    <lightning-button label="Add Services" variant="brand" onclick={handleAddServices} class="styled-button"></lightning-button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <template if:true={finalSelections.length}>
+                            <h3 class="slds-text-heading_small slds-m-bottom_small summary-header">Services Summary</h3>
+                            <div class="table-container">
+                                <lightning-datatable key-field="id" data={finalSelections} columns={columns} hide-checkbox-column="true" onrowaction={handleRemoveService}></lightning-datatable>
+                            </div>
+                        </template>
+                        <template if:false={finalSelections.length}>
+                            <div class="empty-state">
+                                <lightning-icon icon-name="utility:add" size="large"></lightning-icon>
+                                <p class="empty-state-title">No Services Added</p>
+                                <p class="empty-state-text">Select a service category to begin.</p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </section>
+
+            <div class="form-footer">
+                <lightning-button 
+                    label="Get Packages" 
+                    variant="brand" 
+                    class="styled-button save-button"
+                    onclick={handleSave}
+                    disabled={isSaveDisabled}>
+                </lightning-button>
+            </div>
+        </div>
+    </div>
+
+    <template if:true={isLoading}>
+        <div class="status-overlay">
+            <div class="status-content">
+                <div class="percentage-display">{loadingPercentage}%</div>
+
+                <div class="progress-bar">
+                    <div class="progress-bar-inner" style={progressBarStyle}></div>
+                </div>
+
+                <h2 class="status-title">Processing Your Request</h2>
+                <p class="status-text">{loadingStatus}</p>
+            </div>
+        </div>
+    </template>
+</template>

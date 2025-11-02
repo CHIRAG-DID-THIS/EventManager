@@ -1,0 +1,22 @@
+<template>
+    <div class="results-container">
+        <div class="results-grid">
+            <template for:each={venues} for:item="venue">
+                <div key={venue.venueId} class="venue-card" data-id={venue.venueId} onclick={handleVenueSelect}>
+                    <img src={venue.imageUrl} alt={venue.venueName} class="venue-image"/>
+                    <div class="venue-details">
+                        <h3 class="venue-name">{venue.venueName}</h3>
+                        <p class="venue-info">
+                            <lightning-icon icon-name="utility:location" size="x-small" class="info-icon"></lightning-icon>
+                            {venue.location}
+                        </p>
+                        <p class="venue-info">
+                             <lightning-icon icon-name="utility:users" size="x-small" class="info-icon"></lightning-icon>
+                            Capacity: {venue.capacity}
+                        </p>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

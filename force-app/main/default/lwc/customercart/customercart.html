@@ -1,0 +1,118 @@
+<template>
+    <c-customerheader user-id={userId}></c-customerheader>
+
+    <div class="page-container">
+        <h1 class="page-title">Booking Summary</h1>
+
+        <template if:true={isLoading}>
+            <div class="loading-container">
+                <lightning-spinner alternative-text="Loading..." size="large"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={packageData}>
+            <div class="summary-grid">
+                <div class="details-column">
+                    <div class="details-card">
+                        <h2 class="section-title">Your Event Details</h2>
+                        <div class="info-grid">
+                            <div><p class="info-label">Venue</p><p class="info-value">{packageData.venue.VenueName__c}</p></div>
+                            <div><p class="info-label">Location</p><p class="info-value">{packageData.venue.Location__c}</p></div>
+                            <div><p class="info-label">Event Planner</p><p class="info-value">{packageData.eventCompany.Company_Name__c}</p></div>
+                        </div>
+                    </div>
+
+                    <div class="details-card">
+                        <h2 class="section-title">Selected Services</h2>
+                        <table class="services-table">
+                            <thead><tr><th>Service</th><th>Details</th><th class="align-right">Quantity</th><th class="align-right">Total</th></tr></thead>
+                            <tbody>
+                                <template for:each={parsedServices} for:item="service">
+                                    <tr key={service.serviceSubType}>
+                                        <td>{service.serviceType}</td><td>{service.serviceSubType}</td><td class="align-right">{service.units}</td>
+                                        <td class="align-right"><lightning-formatted-number value={service.total} format-style="currency" currency-code="INR"></lightning-formatted-number></td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="summary-column">
+                    <div class="details-card sticky-sidebar">
+                        <h2 class="section-title">Cost Summary</h2>
+                        <div class="cost-summary">
+                            <div class="cost-row"><span>Services Total</span><span><lightning-formatted-number value={servicesCost} format-style="currency" currency-code="INR"></lightning-formatted-number></span></div>
+                            <div class="cost-row"><span>Venue Price</span><span><lightning-formatted-number value={venuePrice} format-style="currency" currency-code="INR"></lightning-formatted-number></span></div>
+                            <div class="cost-row"><span>Service Charge (8%)</span><span><lightning-formatted-number value={serviceCharge} format-style="currency" currency-code="INR"></lightning-formatted-number></span></div>
+                            <hr class="cost-divider"/>
+                            <div class="cost-row grand-total"><strong>Grand Total</strong><strong><lightning-formatted-number value={grandTotal} format-style="currency" currency-code="INR"></lightning-formatted-number></strong></div>
+                        </div>
+                        <lightning-button label="Proceed to Payment" variant="brand" class="slds-m-top_large full-width" onclick={openPaymentModal}></lightning-button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <template if:true={showPaymentModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header payment-header">
+                    <h2 class="slds-modal__title slds-text-heading_medium">
+                        <lightning-icon icon-name="utility:lock" size="small" class="slds-m-right_small"></lightning-icon>
+                        Secure Payment
+                    </h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_large">
+                    <div class="payment-total">
+                        <span>Total Amount</span>
+                        <span class="total-amount-value"><lightning-formatted-number value={grandTotal} format-style="currency" currency-code="INR"></lightning-formatted-number></span>
+                    </div>
+                    
+                    <lightning-combobox
+                        name="paymentMethod" label="Payment Method"
+                        value={selectedPaymentMethod} placeholder="-- Select a Method --"
+                        options={paymentOptions} onchange={handlePaymentMethodChange} required>
+                    </lightning-combobox>
+
+                    <div class="payment-form slds-m-top_medium">
+                        <template if:true={isCardPayment}>
+                            <lightning-input type="text" label="Card Number" placeholder="0000 0000 0000 0000"></lightning-input>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col"><lightning-input type="text" label="Expiry (MM/YY)" placeholder="MM/YY"></lightning-input></div>
+                                <div class="slds-col"><lightning-input type="text" label="CVV" placeholder="123"></lightning-input></div>
+                            </div>
+                        </template>
+                        <template if:true={isUpiPayment}>
+                            <lightning-input type="text" label="UPI ID" placeholder="yourname@bank"></lightning-input>
+                        </template>
+                        <template if:true={isPayPalPayment}>
+                            <div class="paypal-message">
+                                <lightning-icon icon-name="utility:paypal" size="small"></lightning-icon>
+                                <span>You will be redirected to PayPal to complete your payment.</span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={closePaymentModal}></lightning-button>
+                    <lightning-button label="Pay Now" variant="brand" class="slds-m-left_x-small" onclick={handleFinalPayment} disabled={isPayButtonDisabled}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={showSuccessModal}>
+        <div class="modal-overlay">
+             <div class="modal-content">
+                 <lightning-icon icon-name="utility:success" variant="success" size="large"></lightning-icon>
+                 <h2 class="modal-title">Payment Successful!</h2>
+                 <p>Your event package has been booked. You will be redirected to the home page shortly.</p>
+             </div>
+         </div>
+    </template>
+
+    <c-customerfooter></c-customerfooter>
+</template>

@@ -1,0 +1,90 @@
+<template>
+    <c-customerheader user-id={userId}></c-customerheader>
+
+    <div class="service-selection-container">
+        <div class="page-title">Service Selection</div>
+
+        <template if:true={error}>
+            <div class="error-message">{error}</div>
+        </template>
+        <template if:true={loading}>
+            <div class="loading-container">
+                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={groupedServices.length}>
+            <div class="service-grid">
+                <template for:each={groupedServices} for:item="group">
+                    <div key={group.serviceType} class="service-card">
+                        <div class="service-card-header" data-id={group.serviceType} onclick={handleHeaderClick}>
+                            <h2>{group.serviceType}</h2>
+                            <lightning-icon icon-name={group.expandedIcon} alternative-text="Toggle" size="small"></lightning-icon>
+                        </div>
+
+                        <template if:true={group.expanded}>
+                            <div class="service-card-body">
+                                <template for:each={group.subtypes} for:item="sub">
+                                    <div key={sub.Id} class="subtype-row">
+                                        <div class="subtype-info">
+                                            <div class="subtype-name">{sub.Service_SubType__c}</div>
+                                            <div class="subtype-price">₹{sub.Price__c}</div>
+                                        </div>
+                                        <div class="subtype-qty">
+                                            <lightning-input type="number" min="0" value={sub.quantity} data-id={sub.Id} onchange={handleQtyChange}></lightning-input>
+                                            <span class="unit-label">{sub.unitLabel}</span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <div class="selected-items-section">
+            <h3>Selected Items</h3>
+            <template if:true={selectedItems.length}>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Service Type</th>
+                            <th>Sub Type</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={selectedItems} for:item="sel">
+                            <tr key={sel.Id}>
+                                <td>{sel.Service_Type__c}</td>
+                                <td>{sel.Service_SubType__c}</td>
+                                <td>₹{sel.Price__c}</td>
+                                <td>{sel.quantity}</td>
+                                <td>₹{sel.total}</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                <div class="save-button-container">
+                    <div class="save-button-container">
+
+    <lightning-button 
+        variant="brand" 
+        label="Proceed to Booking" 
+        icon-name="utility:cart"
+        icon-position="right"
+        onclick={handleProceedToBooking}>
+    </lightning-button>
+</div>
+                </div>
+            </template>
+            <template if:false={selectedItems.length}>
+                <p class="no-selection-msg">No items selected yet.</p>
+            </template>
+        </div>
+    </div>
+    <c-customerfooter></c-customerfooter>
+</template>

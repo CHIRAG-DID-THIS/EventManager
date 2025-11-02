@@ -1,0 +1,44 @@
+/* EventManager Unified Theme – customerhome */
+:host {
+  --em-color-primary: #00529F;
+  --em-color-primary-hover: #004680;
+  --em-color-bg: #f7f9fc;
+  --em-color-card-bg: #ffffff;
+  --em-color-text: #181818;
+  --em-color-muted: #555;
+  --em-color-border: #e0e0e0;
+  --em-radius-lg: 12px;
+  --em-shadow-md: 0 8px 20px rgba(0,0,0,0.08);
+
+  --sds-c-button-brand-color-background: var(--em-color-primary);
+  --sds-c-button-brand-color-border: var(--em-color-primary);
+  --sds-c-button-brand-color-background-hover: var(--em-color-primary-hover);
+  --sds-c-button-brand-color-border-hover: var(--em-color-primary-hover);
+  --sds-c-button-text-color: #fff;
+}
+
+.page-container, .slds-p-around_medium, .slds-p-around_large {
+  background-color: var(--em-color-bg);
+}
+
+.card, .slds-card, .slds-box {
+  background-color: var(--em-color-card-bg);
+  border-radius: var(--em-radius-lg);
+  box-shadow: var(--em-shadow-md);
+  border: 1px solid var(--em-color-border);
+}
+
+h1, h2, .section-header {
+  color: var(--em-color-primary);
+  font-weight: 700;
+}
+
+.slds-dropdown {
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Generic grid improvements if present */
+.results-grid, .venues-grid, .services-grid, .form-grid {
+  gap: 1.5rem;
+}

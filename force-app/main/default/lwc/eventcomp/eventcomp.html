@@ -1,0 +1,103 @@
+<template>
+    <lightning-card title="Event Planner Registration" icon-name="standard:user">
+        <div class="slds-p-around_medium">
+            <div class="slds-grid slds-grid_align-center slds-p-bottom_large">
+                <span class={stepOneClass}>1. Company Details</span>
+                <span class="slds-m-horizontal_medium">/</span>
+                <span class={stepTwoClass}>2. Venue Details</span>
+                <span class="slds-m-horizontal_medium">/</span>
+                <span class={stepThreeClass}>3. Service Details</span>
+            </div>
+
+            <template if:true={isStepOne}>
+                <lightning-record-form
+                    object-api-name="EventComapny__c"
+                    fields={eventCompanyFields}
+                    onsubmit={handleCompanySubmit}
+                    onsuccess={handleCompanySuccess}
+                    onerror={handleError}
+                    record-id={eventCompanyRecordId}
+                    mode="edit"
+                >
+                    <div class="slds-align_absolute-center slds-p-top_medium">
+                        <lightning-button 
+                            label="Next: Venue Details" 
+                            type="submit" 
+                            variant="brand"
+                        ></lightning-button>
+                    </div>
+                </lightning-record-form>
+            </template>
+
+            <template if:true={isStepTwo}>
+                <h3 class="slds-text-heading_medium slds-m-bottom_medium">Linked Venues for: {companyName}</h3>
+                
+                <template if:true={linkedVenues}>
+                    <template for:each={linkedVenues} for:item="venue">
+                        <div key={venue.Id} class="slds-box slds-box_small slds-m-vertical_x-small">
+                            <strong>{venue.Venue__r.Name}</strong> - {venue.Venue__r.City__c}
+                        </div>
+                    </template>
+                </template>
+                <template if:false={linkedVenues}>
+                    <p class="slds-text-align_center slds-text-color_weak">No venues linked yet.</p>
+                </template>
+
+                <hr class="slds-m-vertical_medium" />
+                
+                <h4 class="slds-text-heading_small slds-m-bottom_small">Create & Link New Venue</h4>
+                <lightning-record-form
+                    o object-api-name="Venue__c"
+    fields={venueFields}
+    onsuccess={handleNewVenueSuccess}
+    onerror={handleError}
+    mode="edit"
+    id="newVenueForm"
+                >
+                    <div slot="footer" class="slds-align_absolute-center slds-p-top_small">
+                        <lightning-button 
+                            label="Add Venue & Link" 
+                            onclick={saveNewVenue} 
+                            variant="brand"
+                        ></lightning-button>
+                    </div>
+                </lightning-record-form>
+
+                <div class="slds-p-top_large slds-grid slds-grid_align-spread">
+                    <lightning-button label="Back" onclick={goToStepOne}></lightning-button>
+                    <lightning-button label="Next: Service Details" onclick={goToStepThree} variant="brand"></lightning-button>
+                </div>
+            </template>
+
+            <template if:true={isStepThree}>
+                <h3 class="slds-text-heading_medium slds-m-bottom_medium">Service Details</h3>
+                <p class="slds-m-bottom_large">This is where the complex service and dependent picklist logic will be implemented.</p>
+                
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox
+                            label="Service Type"
+                            placeholder="Select Service"
+                            options={serviceTypeOptions}
+                            onchange={handleServiceTypeChange}
+                        ></lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox
+                            label="Sub Service"
+                            placeholder="Select Sub Service"
+                            options={subServiceOptions}
+                            disabled={isSubServiceDisabled}
+                            onchange={handleSubServiceChange}
+                        ></lightning-combobox>
+                    </div>
+                </div>
+                
+                <div class="slds-p-top_large slds-grid slds-grid_align-spread">
+                    <lightning-button label="Back" onclick={goToStepTwo}></lightning-button>
+                    <lightning-button label="Submit Registration" onclick={handleSubmit} variant="success"></lightning-button>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title="Upload Venue Images">
+        <div class="slds-p-around_medium">
+            <p class="slds-m-bottom_small">Select multiple images to upload for your venue.</p>
+            
+            <lightning-file-upload
+                label="Upload Image Files"
+                name="fileUploader"
+                accept={acceptedFormats}
+                record-id={recordId}
+                onuploadfinished={handleUploadFinished}
+                multiple
+            ></lightning-file-upload>
+            
+            <p class="slds-text-color_success slds-m-top_medium" 
+               if:true={uploadedCount}>
+                Successfully uploaded {uploadedCount} file(s).
+            </p>
+        </div>
+    </lightning-card>
+</template>

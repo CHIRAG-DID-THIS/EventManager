@@ -1,0 +1,104 @@
+/* Base Container and Card Styling */
+.setup-container {
+    background-color: #0d121c; /* Very dark background */
+    padding: 2rem 0;
+    min-height: 80vh;
+}
+
+.header-glow {
+    color: #fff;
+    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff; /* Neon header glow */
+    font-weight: 700;
+}
+
+.setup-card {
+    background-color: #1a2230; /* Darker card background */
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4), 0 0 5px rgba(0, 255, 255, 0.2); /* Subtle card glow */
+    border: 1px solid #0ff;
+    color: #f0f8ff; /* Light text color */
+}
+
+/* Status and Profile ID styling */
+.status-text {
+    color: #e0e0e0;
+    font-size: 1.1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-id-glow {
+    color: #0ff;
+    text-shadow: 0 0 3px #0ff;
+    font-weight: 600;
+}
+
+/* Custom Input Styling (Targeting .slds-input & .slds-textarea) */
+.input-field-custom {
+    --sds-c-input-color-text: #0ff;
+    --sds-c-input-color-border: #444;
+    --sds-c-input-color-background: #0d121c;
+    --sds-c-input-shadow-focus: 0 0 5px #0ff;
+    
+    /* Apply custom styles to the inputs themselves */
+    --sds-c-input-radius: 6px;
+}
+
+/* Adjusting LWC specific element colors (e.g., labels) */
+.input-field-custom lightning-input,
+.input-field-custom lightning-textarea,
+.input-field-custom lightning-combobox {
+    color: #f0f8ff;
+}
+
+/* Label color adjustment */
+.input-field-custom label {
+    color: #a0f0ff; /* Light cyan for labels */
+    font-weight: 500;
+}
+
+/* Focus and hover effects for inputs */
+.input-field-custom input:focus, 
+.input-field-custom textarea:focus {
+    border-color: #0ff;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+}
+
+/* Action Button Styling */
+.action-button-glow {
+    /* Base style for the brand button */
+    --sds-c-button-brand-color-background: #0ff;
+    --sds-c-button-brand-color-border: #0ff;
+    --sds-c-button-brand-color-text: #111;
+    --sds-c-button-brand-shadow: 0 0 5px #0ff;
+    
+    /* Hover state for that strong glow effect */
+    --sds-c-button-brand-color-background-hover: #0ff;
+    --sds-c-button-brand-shadow-hover: 0 0 10px #0ff, 0 0 20px #0ff;
+    
+    /* Disabled state styling */
+    --sds-c-button-neutral-color-background-disabled: #333;
+    --sds-c-button-neutral-color-text-disabled: #999;
+}
+
+/* Error Message Styling */
+.error-message {
+    color: #ff4d4d;
+    background-color: #330000;
+    border: 1px solid #ff0000;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* Spinner overlay for dark background */
+.loading-overlay {
+    background-color: rgba(26, 34, 48, 0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+}

@@ -1,0 +1,93 @@
+<template>
+    <div class="search-container">
+        <h1 class="search-headline">Find the Perfect Venue for Your Next Event</h1>
+        
+        <div class="search-box">
+            <template if:true={showErrorModal}>
+                <div class="modal-overlay">
+                    <div class="modal-content">
+                        <lightning-icon icon-name="utility:warning" variant="warning" size="medium"></lightning-icon>
+                        <h2 class="modal-title">Missing Information</h2>
+                        <p>{modalMessage}</p>
+                    </div>
+                </div>
+            </template>
+
+            <div class="search-grid">
+                
+             <div class="search-field location location-container">
+                    <lightning-input 
+                        type="search" 
+                        label="Location" 
+                        variant="label-hidden" 
+                        placeholder="Location"
+                        required="true"
+                        onkeyup={handleLocationChange}
+                        onfocus={handleLocationFocus}
+                        onblur={handleLocationBlur}
+                        value={location}
+                        autocomplete="off">
+                    </lightning-input>
+                    
+                    <template if:true={showCityDropdown}>
+                        <div class="city-dropdown">
+                            <ul>
+                                <template if:true={hasFilteredCities}>
+                                    <template for:each={filteredCities} for:item="city">
+                                        <li key={city} data-city={city} onmousedown={handleCitySelect}>
+                                            {city}
+                                        </li>
+                                    </template>
+                                </template>
+                                <template if:false={hasFilteredCities}>
+                                    <li class="no-results">No cities found</li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="search-field date">
+                    <lightning-input 
+                        type="date" 
+                        label="Start Date" 
+                        variant="label-hidden" 
+                        placeholder="Start Date"
+                        required="true"
+                        onchange={handleStartDateChange} 
+                        value={startDate}>
+                    </lightning-input>
+                </div>
+
+                <div class="search-field date">
+                    <lightning-input 
+                        type="date" 
+                        label="End Date" 
+                        variant="label-hidden" 
+                        placeholder="End Date"
+                        required="true"
+                        min={startDate} 
+                        onchange={handleEndDateChange} 
+                        value={endDate}>
+                    </lightning-input>
+                </div>
+            </div>
+            
+            <div class="action-buttons-wrapper">
+                <div class="ai-button-container">
+                    <lightning-button 
+                        label="Generate Package with AI"
+                        onclick={handleAIPackage}
+                        class="ai-button">
+                    </lightning-button>
+                </div>
+                <lightning-button 
+                    label="Search"
+                    variant="brand" 
+                    onclick={handleSearch}
+                    class="search-button">
+                </lightning-button>
+            </div>
+        </div>
+    </div>
+</template>

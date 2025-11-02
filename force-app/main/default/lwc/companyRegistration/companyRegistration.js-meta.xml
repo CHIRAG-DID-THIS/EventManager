@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="userDataId" type="String" label="User Data ID" description="The UserData__c record ID to link the company to"/>
+        </targetConfig>
+    </targetConfigs>
+    <masterLabel>Company Registration</masterLabel>
+    <description>A clean component for EventCompany registration that can be used on venues page and other community pages</description>
+</LightningComponentBundle>

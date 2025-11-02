@@ -1,0 +1,94 @@
+<template>
+    <c-customerheader user-id={userId}></c-customerheader>
+
+    <div class="page-container">
+        <div class="header-section">
+            <h1 class="page-title">We've Curated These Packages For You</h1>
+            <p class="page-subtitle">Review the details below and select the package that best fits your event.</p>
+        </div>
+
+        <template if:true={isLoading}>
+            <div class="loading-container">
+                <lightning-spinner alternative-text="Loading Packages..." size="large"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={error}>
+            <div class="slds-p-around_medium">
+                <p>Error loading packages: {error.body.message}</p>
+            </div>
+        </template>
+
+        <div class="packages-list">
+            <template for:each={packageList} for:item="pkg">
+                <div key={pkg.packageRecord.Id} class="package-card">
+                    <div class="card-grid">
+                        <div class="image-column">
+                            <img src={pkg.venueImageUrl} alt={pkg.venue.VenueName__c} class="venue-image"/>
+                        </div>
+
+                        <div class="details-column">
+                            <div class="card-header">
+                                <h2 class="package-name">{pkg.displayPackageName}</h2>
+                                <lightning-button
+                                    label="Select Package"
+                                    variant="brand"
+                                    data-id={pkg.packageRecord.Id}
+                                    onclick={handleSelectPackage}>
+                                </lightning-button>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="detail-grid">
+                                    <div class="detail-section">
+                                        <h3 class="section-heading">Event Planner</h3>
+                                        <p class="planner-name">{pkg.eventCompany.Company_Name__c}</p>
+                                        <p class="detail-sub-item">
+                                            <lightning-icon icon-name="utility:user" size="x-small"></lightning-icon>
+                                            <span>{pkg.eventCompany.Userdata__r.VendorName__c}</span>
+                                        </p>
+                                    </div>
+                                    <div class="detail-section">
+                                        <h3 class="section-heading">Venue</h3>
+                                        <p class="venue-name">{pkg.venue.VenueName__c}</p>
+                                        <p class="detail-sub-item">
+                                            <lightning-icon icon-name="utility:location" size="x-small"></lightning-icon>
+                                            <span>{pkg.venue.Location__c} | Capacity: {pkg.venue.Capacity__c}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div class="detail-section">
+                                    <h3 class="section-heading">Included Services</h3>
+                                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-no-row-hover">
+                                        <tbody>
+                                            <template for:each={pkg.parsedServices} for:item="service">
+                                                <tr key={service.serviceId} class="slds-hint-parent">
+                                                    <td><div class="slds-truncate">{service.serviceType}</div></td>
+                                                    <td><div class="slds-truncate">{service.serviceSubType} (x{service.units})</div></td>
+                                                    <td class="slds-text-align_right">
+                                                        <lightning-formatted-number value={service.total} format-style="currency" currency-code="INR"></lightning-formatted-number>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="detail-section cost-summary">
+                                    <h3 class="section-heading">Cost Summary</h3>
+                                    <div class="cost-row"><span>Services Total</span><span><lightning-formatted-number value={pkg.packageRecord.TotalCost__c} format-style="currency" currency-code="INR"></lightning-formatted-number></span></div>
+                                    <div class="cost-row"><span>Venue Price</span><span><lightning-formatted-number value={pkg.venuePrice} format-style="currency" currency-code="INR"></lightning-formatted-number></span></div>
+                                    <div class="cost-row"><span>Service Charge (10%)</span><span><lightning-formatted-number value={pkg.serviceCharge} format-style="currency" currency-code="INR"></lightning-formatted-number></span></div>
+                                    <hr/>
+                                    <div class="cost-row total"><strong>Grand Total</strong><strong><lightning-formatted-number value={pkg.grandTotal} format-style="currency" currency-code="INR"></lightning-formatted-number></strong></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+    <c-customerfooter></c-customerfooter>
+</template>

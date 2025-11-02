@@ -1,0 +1,182 @@
+/* ------------------------------
+   DASHBOARD LAYOUT
+---------------------------------*/
+.dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    color: #2d2d2d;
+}
+
+/* Section titles */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #1c3d73;
+    text-align: left;
+    border-left: 4px solid #1c3d73;
+    padding-left: 0.75rem;
+}
+
+/* ------------------------------
+   PROFILE CARD
+---------------------------------*/
+.profile-card {
+    background: linear-gradient(135deg, #f0f4ff, #ffffff);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.profile-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+}
+.welcome-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1c3d73;
+    margin-bottom: 1rem;
+}
+.profile-details p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    color: #444;
+}
+.profile-details strong {
+    color: #1c3d73;
+}
+
+/* ------------------------------
+   BOOKINGS SECTION
+---------------------------------*/
+.bookings-section {
+    margin-bottom: 4rem;
+}
+.bookings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Booking Card */
+.booking-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.booking-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
+
+/* Header */
+.booking-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.booking-card-header h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1c3d73;
+}
+.booking-card-header span {
+    padding: 0.35rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+.booking-card-header span::before {
+    content: "● ";
+}
+
+/* Status colors */
+.booking-card-header span:contains("Confirmed") {
+    background: #e8f8f1;
+    color: #2e7d32;
+}
+.booking-card-header span:contains("Pending") {
+    background: #fff8e1;
+    color: #f9a825;
+}
+.booking-card-header span:contains("Cancelled") {
+    background: #fdecea;
+    color: #c62828;
+}
+
+/* Body */
+.booking-card-body {
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+.booking-detail {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.4rem 0;
+    font-size: 0.95rem;
+    color: #555;
+}
+.booking-detail .label {
+    font-weight: 500;
+    color: #333;
+}
+.booking-detail .value {
+    font-weight: 600;
+    color: #1c3d73;
+}
+
+/* Footer */
+.booking-card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+.total-label {
+    font-size: 0.9rem;
+    color: #666;
+}
+.total-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1c3d73;
+}
+
+/* ------------------------------
+   EMPTY STATE
+---------------------------------*/
+.no-bookings-card {
+    text-align: center;
+    padding: 3rem;
+    border: 2px dashed #d0d7e2;
+    border-radius: 12px;
+    background: #fafbfc;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* ------------------------------
+   RESPONSIVE
+---------------------------------*/
+@media (max-width: 768px) {
+    .profile-card {
+        padding: 1.5rem;
+    }
+    .welcome-title {
+        font-size: 1.5rem;
+    }
+    .booking-card {
+        padding: 1rem;
+    }
+}

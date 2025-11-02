@@ -1,0 +1,119 @@
+/* --- MAIN CONTAINER & BACKGROUND --- */
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 74vh;
+  padding: 1.17rem;
+  position: relative; /* Establishes a positioning context for the pseudo-element */
+  background-color: #f3f3f3; /* Fallback color */
+  overflow: hidden;
+}
+
+/* ADDED: Pseudo-element for the background image */
+.auth-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* You can replace this URL with any other from unsplash.com */
+  background-image: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.6; /* Sets the opacity of the image layer */
+  z-index: 0; /* Places the image layer behind the content */
+}
+
+/* --- FORM CONTAINER --- */
+.form-container {
+  width: 100%;
+  max-width: 550px;
+  background: #ffffff;
+  border: 1px solid #dddbda;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  position: relative; /* Ensures the form sits on top of the background layer */
+  z-index: 1;
+  overflow: hidden;
+}
+
+.form-content {
+  padding: 2.5rem;
+}
+
+/* --- TYPOGRAPHY & TEXT STYLES --- */
+.form-title {
+  font-weight: 700;
+  color: #181818;
+}
+
+.form-subtitle {
+  color: #5e5e5e;
+  font-size: 1rem;
+}
+
+.link-style {
+  color: #0176d3;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.link-style:hover {
+  color: #005fb2;
+  text-decoration: underline;
+}
+
+/* --- STYLING BASE LIGHTNING COMPONENTS --- */
+:host {
+  /* Input Fields */
+  --slds-c-input-color-border: #dddbda;
+  --slds-c-input-color-border-focus: #0176d3;
+  --slds-c-input-color-background: #ffffff;
+  --slds-c-input-text-color: #181818;
+  --slds-c-input-shadow-focus: 0 0 3px #0176d3;
+
+  /* Labels */
+  --slds-c-label-color: #3e3e3e;
+  --slds-c-label-font-size: 0.9rem;
+
+  /* Brand Button (Primary Action) */
+  --slds-c-button-brand-background: #0176d3;
+  --slds-c-button-brand-background-hover: #005fb2;
+  --slds-c-button-brand-border-color: #0176d3;
+  --sds-c-button-brand-border-color-hover: #005fb2;
+  --sds-c-button-brand-color-background-active: #003e75;
+  --slds-c-button-text-color: #ffffff;
+
+  /* Neutral Button (Secondary Action) */
+  --slds-c-button-neutral-color-background: #ffffff;
+  --slds-c-button-neutral-color-background-hover: #f3f3f3;
+  --slds-c-button-neutral-color-border: #dddbda;
+  --slds-c-button-text-color-hover: #005fb2;
+  
+  /* Progress Indicator */
+  --slds-c-progress-indicator-color-border-complete: #dddbda;
+  --slds-c-progress-step-color-background-active: #0176d3;
+}
+
+.radio-group-box {
+  background-color: #fafafa;
+  border-color: #dddbda;
+}
+
+/* --- SPINNER OVERLAY --- */
+.spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}

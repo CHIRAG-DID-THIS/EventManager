@@ -1,0 +1,215 @@
+/* * Cryptoflow Dark Theme Styling for Homepage 
+ */
+
+/* Global container and background */
+.homepage-container {
+    background-color: #0d0d1a; /* Very dark background */
+    color: #e0e0f0; /* Light, slightly blue-tinted text */
+    font-family: 'Inter', sans-serif;
+}
+
+/* ------------------- Section Styles ------------------- */
+
+/* General Section Padding */
+.hero-section, .about-section, .process-section {
+    padding-left: 5%;
+    padding-right: 5%;
+    max-width: 1400px; /* Constrain width on large screens */
+    margin: 0 auto;
+}
+
+/* ------------------- Hero Section ------------------- */
+
+.hero-section {
+    background: radial-gradient(circle at center, rgba(30, 0, 70, 0.4) 0%, rgba(13, 13, 26, 0.9) 70%, #0d0d1a 100%);
+}
+
+.hero-title-glow {
+    font-size: 3.5rem; /* Large font size */
+    font-weight: 800;
+    color: #ffffff;
+    /* Neon glow effect */
+    text-shadow: 0 0 5px rgba(100, 255, 255, 0.5), 0 0 10px rgba(100, 255, 255, 0.5), 0 0 15px rgba(100, 255, 255, 0.5);
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    color: #a0a0ff; /* Subtle blue highlight */
+    font-weight: 300;
+}
+
+/* Styling for the search component wrapper/placeholder */
+.search-integration-wrapper {
+    margin-top: 2rem;
+}
+
+.search-placeholder-glow {
+    /* Subtle neon border for the search box area */
+    border: 1px solid #330066;
+    border-radius: 12px;
+    background-color: rgba(20, 0, 40, 0.6);
+    box-shadow: 0 0 15px rgba(102, 51, 153, 0.4); /* Purple box shadow */
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-title-glow {
+        font-size: 2.25rem;
+    }
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+}
+
+/* ------------------- Section Title Styles ------------------- */
+
+.section-title-glow {
+    font-weight: 700;
+    color: #ffffff;
+    /* Light cyan glow */
+    text-shadow: 0 0 3px rgba(150, 255, 255, 0.3);
+}
+
+.section-subtitle {
+    color: #8888aa;
+    font-weight: 300;
+}
+
+/* ------------------- Feature Cards (About Section) ------------------- */
+
+.feature-grid {
+    text-align: center;
+}
+
+.feature-card {
+    background-color: rgba(18, 18, 36, 0.8); /* Dark card background */
+    border: 1px solid #333366; /* Subtle blue border */
+    border-radius: 10px;
+    padding: 2rem;
+    height: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: #66ccff; /* Neon highlight on hover */
+    box-shadow: 0 0 20px rgba(102, 204, 255, 0.5); /* Blue glow on hover */
+}
+
+.feature-icon {
+    /* Neon cyan color for icons */
+    --sds-c-icon-color-foreground: #66ccff;
+    --sds-c-icon-color-background: transparent;
+    filter: drop-shadow(0 0 5px rgba(102, 204, 255, 0.8));
+}
+
+.feature-title {
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: 1rem;
+}
+
+.feature-description {
+    color: #bbbbdd;
+}
+
+/* ------------------- Process Flow Section ------------------- */
+
+.process-flow {
+    justify-content: center;
+}
+
+.process-step {
+    text-align: center;
+    position: relative;
+    padding-bottom: 2rem; /* Add space for mobile divider */
+}
+
+.step-circle {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    margin: 0 auto;
+    font-size: 1.75rem;
+    font-weight: 700;
+    background-color: #0d0d1a; /* Dark center */
+    border: 3px solid;
+    /* Base style for glow */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.step-description {
+    color: #bbbbdd;
+}
+
+/* Specific Step Colors/Glows */
+.step-1 {
+    color: #ff66cc; /* Pink */
+    border-color: #ff66cc;
+    box-shadow: 0 0 15px rgba(255, 102, 204, 0.6);
+}
+
+.step-2 {
+    color: #66ffcc; /* Mint Green */
+    border-color: #66ffcc;
+    box-shadow: 0 0 15px rgba(102, 255, 204, 0.6);
+}
+
+.step-3 {
+    color: #66ccff; /* Blue/Cyan */
+    border-color: #66ccff;
+    box-shadow: 0 0 15px rgba(102, 204, 255, 0.6);
+}
+
+/* Arrow Connector Styling (Desktop) */
+.process-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Ensure no padding/margin interferes with flow */
+    padding: 0; 
+}
+
+.step-arrow {
+    font-size: 2rem;
+    color: #8888aa;
+    /* Optional: subtle pulse animation */
+    animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        opacity: 0.7;
+        text-shadow: 0 0 5px #66ccff;
+    }
+    to {
+        opacity: 1;
+        text-shadow: 0 0 10px #66ccff;
+    }
+}
+
+/* Mobile: Remove arrows and center steps */
+@media (max-width: 768px) {
+    .process-arrow {
+        display: none !important;
+    }
+    /* Add a subtle line between steps on mobile for better flow */
+    .process-step::after {
+        content: '';
+        display: block;
+        width: 1px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.1);
+        margin: 1rem auto 0;
+    }
+    .process-step:last-child::after {
+        display: none;
+    }
+}

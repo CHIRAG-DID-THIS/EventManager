@@ -1,0 +1,98 @@
+<template>
+    <!-- Header Component -->
+    <c-customerheader user-id={userId}></c-customerheader>
+
+    <div class="dashboard-container">
+        <!-- Loader -->
+        <template if:true={isLoading}>
+            <div class="loading-container">
+                <lightning-spinner alternative-text="Loading..." size="large"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Dashboard Content -->
+        <template if:true={dashboardData}>
+
+            <!-- Profile Section -->
+            <div class="profile-card">
+                <h1 class="welcome-title">Welcome, {profile.First_Name__c}!</h1>
+                <div class="profile-details">
+                    <p><strong>Name:</strong> {profile.First_Name__c} {profile.Last_Name__c}</p>
+                    <p><strong>Email:</strong> {profile.Email__c}</p>
+                    <p><strong>Contact:</strong> {profile.Contact_No__c}</p>
+                </div>
+            </div>
+
+            <!-- Bookings Section -->
+            <div class="bookings-section">
+                <h2 class="section-title">My Bookings</h2>
+                
+                <!-- If bookings exist -->
+                <template if:true={hasBookings}>
+                    <div class="bookings-grid">
+                        <template for:each={bookings} for:item="booking">
+                            <div key={booking.Id} class="booking-card">
+                                
+                                <!-- Card Header -->
+                                <div class="booking-card-header">
+                                    <h3>Booking #{booking.Name}</h3>
+                                    <span>{booking.Status__c}</span>
+                                </div>
+
+                                <!-- Card Body -->
+                                <div class="booking-card-body">
+                                    <div class="booking-detail">
+                                        <span class="label">Event Planner:</span>
+                                        <span class="value">{booking.Package__r.EventComapny__r.Company_Name__c}</span>
+                                    </div>
+                                    <div class="booking-detail">
+                                        <span class="label">Venue:</span>
+                                        <span class="value">{booking.Package__r.Venue__r.VenueName__c}</span>
+                                    </div>
+                                    <div class="booking-detail">
+                                        <span class="label">Event Start Date:</span>
+                                        <span class="value">
+                                            <lightning-formatted-date-time 
+                                                value={booking.EventDate__c} 
+                                                year="numeric" 
+                                                month="long" 
+                                                day="2-digit">
+                                            </lightning-formatted-date-time>
+                                        </span>
+                                    </div>
+                                    <div class="booking-detail">
+                                    <span class="label">Event End Date:</span>
+                                        <span class="value">
+                                            <lightning-formatted-date-time 
+                                                value={booking.Event_End_Date__c} 
+                                                year="numeric" 
+                                                month="long" 
+                                                day="2-digit">
+                                            </lightning-formatted-date-time>
+                                        </span>
+                                        </div>
+                                </div>
+
+                                <!-- Card Footer -->
+                                <div class="booking-card-footer">
+                                    <span class="total-label">Total Amount</span>
+                                    <span class="total-value">₹{booking.Total_Amount__c}</span>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- If no bookings -->
+                <template if:false={hasBookings}>
+                    <div class="no-bookings-card">
+                        <p>You have no past or upcoming bookings.</p>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </div>
+
+    <!-- Footer Component -->
+    <c-customerfooter></c-customerfooter>
+</template>

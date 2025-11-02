@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Shopping Cart" icon-name="utility:cart">
+        <div class="slds-p-around_medium">
+            <template if:true={items.length}>
+                <lightning-datatable key-field="Id" data={rows} columns={columns} hide-checkbox-column>
+                </lightning-datatable>
+                <div class="slds-m-top_medium slds-text-align_right slds-text-title_bold">
+                    Total: {formattedTotal}
+                </div>
+                <div class="slds-m-top_medium slds-grid slds-gutters">
+                    <div class="slds-col">
+                        <lightning-input type="date" label="Event Date" value={eventDate} onchange={handleDate}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-align_absolute-center">
+                        <lightning-button variant="brand" label="Proceed to Booking" onclick={proceedToBooking} disabled={disableBooking}></lightning-button>
+                    </div>
+                </div>
+            </template>
+            <template if:false={items.length}>
+                <div class="slds-text-color_weak">Your cart is empty.</div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

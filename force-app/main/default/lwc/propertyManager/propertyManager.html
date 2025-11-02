@@ -1,0 +1,51 @@
+<!--
+  LWC for vendors to manage their properties (Venues).
+  Displays a list of venues and provides a modal to add/edit them.
+-->
+<template>
+    <lightning-card title="My Properties" icon-name="standard:home">
+        <lightning-button label="Add New Property" slot="actions" onclick={handleAddNew}></lightning-button>
+
+        <!-- Venue List -->
+        <div class="slds-p-around_medium">
+            <template if:true={venues}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={venues}
+                    columns={columns}
+                    onrowaction={handleRowAction}
+                    hide-checkbox-column>
+                </lightning-datatable>
+            </template>
+            <template if:false={venues.length}>
+                <p>You have not added any properties yet. Click "Add New Property" to get started.</p>
+            </template>
+        </div>
+
+        <!-- Add/Edit Modal -->
+        <template if:true={isModalOpen}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium"></lightning-icon>
+                        </button>
+                        <h2 class="slds-modal__title slds-hyphenate">Add/Edit Property</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <!-- Form Fields -->
+                        <lightning-input label="Venue Name" value={currentVenue.VenueName__c} onchange={handleInputChange} name="VenueName__c"></lightning-input>
+                        <lightning-input label="Capacity" type="number" value={currentVenue.Capacity__c} onchange={handleInputChange} name="Capacity__c"></lightning-input>
+                        <lightning-textarea label="Location" value={currentVenue.Location__c} onchange={handleInputChange} name="Location__c"></lightning-textarea>
+                        <lightning-input-rich-text label="Description" value={currentVenue.Descriptions__c} onchange={handleRichTextChange}></lightning-input-rich-text>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Cancel" onclick={closeModal} class="slds-m-right_x-small"></lightning-button>
+                        <lightning-button label="Save" variant="brand" onclick={handleSave}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </lightning-card>
+</template>

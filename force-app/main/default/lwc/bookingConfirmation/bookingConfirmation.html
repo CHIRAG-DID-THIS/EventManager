@@ -1,0 +1,40 @@
+<template>
+    <lightning-card title="Booking Confirmation" icon-name="standard:checkout">
+        <template if:true={loaded}>
+            <div class="slds-p-around_medium">
+                <p class="slds-text-title_bold">Summary</p>
+                <p>Status: {status}</p>
+                <p>Event Date: {eventDate}</p>
+
+                <template if:true={items.length}>
+                    <lightning-datatable key-field="index" data={items} columns={columns} hide-checkbox-column></lightning-datatable>
+                </template>
+                <template if:false={items.length}>
+                    <p>No items found in booking details.</p>
+                </template>
+
+                <div class="slds-m-top_medium slds-text-title_bold">Total: {formattedTotal}</div>
+
+                <div class="slds-m-top_medium">
+                    <lightning-input type="text" label="Transaction ID" value={transactionId} onchange={handleTxnChange}></lightning-input>
+                    <lightning-combobox
+                        label="Payment Method"
+                        value={paymentMethod}
+                        options={paymentOptions}
+                        onchange={handleMethodChange}
+                    ></lightning-combobox>
+                </div>
+
+                <div class="slds-m-top_medium">
+                    <lightning-button variant="brand" label="Confirm Payment" onclick={handleConfirm} disabled={loading}></lightning-button>
+                    <lightning-button class="slds-m-left_small" label="Back to Booking" onclick={navigateToBooking}></lightning-button>
+                </div>
+            </div>
+        </template>
+        <template if:false={loaded}>
+            <div class="slds-p-around_medium">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+    </lightning-card>
+</template>

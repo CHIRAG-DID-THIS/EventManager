@@ -1,0 +1,36 @@
+<template>
+    <lightning-card title="Choose Your Services" icon-name="standard:multi_select_checkbox">
+        <div class="slds-m-around_medium">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading services..."></lightning-spinner>
+            </template>
+
+            <div if:true={servicesByType}>
+                <template for:each={servicesByType} for:item="serviceGroup">
+                    <fieldset key={serviceGroup.type} class="slds-box slds-m-bottom_medium slds-form-element">
+                        <legend class="slds-form-element__legend slds-form-element__label slds-text-heading_small slds-m-bottom_medium">{serviceGroup.type}</legend>
+                        <div class="slds-form-element__control">
+                            <template for:each={serviceGroup.subtypes} for:item="subtype">
+                                <div key={subtype.Id} class="slds-grid slds-gutters_small slds-m-bottom_small slds-p-around_x-small service-row">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-align-middle">
+                                        <lightning-input type="checkbox" label={subtype.Service_SubType__c} data-id={subtype.Id} onchange={handleSelection}></lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12">
+                                        <lightning-input type="number" label="Quantity" variant="label-hidden" placeholder="Enter quantity..." data-id={subtype.Id} value={subtype.units} onchange={handleQuantityChange} disabled={subtype.isQuantityDisabled}></lightning-input>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </fieldset>
+                </template>
+            </div>
+             <div if:false={hasServices} class="slds-align_absolute-center slds-text-color_weak">
+                No services are available for this vendor.
+            </div>
+        </div>
+
+        <div slot="footer" class="slds-text-align_right">
+            <lightning-button label="Save Selections" variant="brand" onclick={handleSave} disabled={isSaveDisabled}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

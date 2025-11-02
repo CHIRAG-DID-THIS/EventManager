@@ -1,0 +1,15 @@
+.search-container {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1480455454781-1af590be2a58?q=80&w=2070');; /* CHANGED: Darker tint */
+    background-size: cover;
+    background-position: center;
+    padding: 13rem 1rem 8rem 1rem; /* CHANGED: Increased vertical padding for more height */
+    text-align: center;
+    color:black;
+}
+.search-headline {
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: white;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}

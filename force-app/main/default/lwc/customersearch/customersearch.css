@@ -1,0 +1,165 @@
+/* ============================================= */
+/* LAYOUT, THEME & COMPONENT STYLES              */
+/* ============================================= */
+
+/* REMOVED :host block as it is no longer needed with label-hidden variant */
+
+/* --- Layout --- */
+.search-grid {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 1rem;       
+    align-items: flex-end; 
+}
+.search-field {
+    margin-bottom: 1rem;
+}
+.search-field.location { flex: 1 1 300px; } 
+.search-field.date { flex: 1 1 200px; }
+.location-container {
+    position: relative;
+}
+.action-buttons-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem; 
+}
+
+/* --- Main Theme --- */
+.search-container {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1480455454781-1af590be2a58?q=80&w=2070');
+    background-size: cover;
+    background-position: center;
+    padding: 5rem 1rem 3rem 1rem;
+    text-align: center;
+}
+.search-box {
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+    padding: 2.5rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.search-headline {
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: white;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+/* --- Component Styles --- */
+.city-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #d3d3d3;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 100;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 4px;
+}
+.city-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+.city-dropdown li {
+    padding: 12px 16px;
+    color: #333;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+.city-dropdown li:last-child {
+    border-bottom: none;
+}
+.city-dropdown li:hover {
+    background-color: #f5f5f5;
+}
+.search-box lightning-input {
+    --slds-c-input-radius-border: 8px;
+    --slds-c-input-color-border: black;
+    --slds-c-input-color-background: rgba(255, 255, 255, 0.9);
+    --slds-c-input-text-color: #181818;
+    /* CHANGED: Placeholder color is now black */
+    --slds-c-input-text-color-placeholder: #000000;
+    transition: all 0.2s ease-in-out;
+}
+/* REMOVED the padding-top hack for [variant="standard"] */
+
+.search-box lightning-input:focus-within {
+    --slds-c-input-color-border: #ffffff;
+}
+
+/* UPDATED: Added background color styles to the search button */
+.search-button {
+    --slds-c-button-radius-border: 50px;
+    padding: 0 2rem;
+    
+    /* Add these lines to make the button black */
+    --slds-c-button-brand-color-background: #000000;
+    --slds-c-button-brand-color-border: #000000;
+    --slds-c-button-brand-color-background-hover: #333333; /* Dark gray for hover */
+    --slds-c-button-brand-color-border-hover: #333333;
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 4px rgba(255, 255, 255, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.9); }
+  100% { box-shadow: 0 0 4px rgba(255, 255, 255, 0.5); }
+}
+.ai-button-container {
+    display: inline-block;
+    background: #ffffff;
+    border-radius: 50px;
+    animation: glow 3s infinite;
+    transition: transform 0.2s ease-in-out;
+    padding: 2px;
+}
+.ai-button-container:hover {
+    transform: scale(1.05);
+}
+.ai-button {
+    /* CORRECTED TYPO: --sds-c- should be --slds-c- */
+    --slds-c-button-radius-border: 50px;
+    --slds-c-button-color-background: transparent;
+    --slds-c-button-color-border: transparent;
+    --slds-c-button-text-color: #181818;
+    --slds-c-button-color-background-hover: transparent;
+    --slds-c-button-color-border-hover: transparent;
+}
+/* --- Add these styles to the end of your CSS file --- */
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 101; /* Higher than the dropdown */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px; /* Match the search-box */
+}
+.modal-content {
+    text-align: center;
+    color: white;
+}
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 1rem 0 0.5rem 0;
+}

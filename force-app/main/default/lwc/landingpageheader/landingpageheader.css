@@ -1,0 +1,49 @@
+/* --- Header Layout --- */
+.header-container {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dddbda;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.05);
+}
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #181818;
+}
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.nav-list a {
+    /* Align icon and text */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Space between icon and text */
+    
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #0176d3;
+    font-weight: 500;
+    border-radius: 6px; /* Add rounded corners */
+    transition: background-color 0.2s ease-in-out; /* Smooth transition for hover */
+}
+.nav-list a:hover {
+    /* New hover effect: light background, no underline */
+    background-color: #f3f3f3;
+    text-decoration: none;
+}
+
+/* Style the icon within the link */
+.nav-list a lightning-icon {
+    /* This makes the icon's color match the text color automatically */
+    fill: currentColor;
+}

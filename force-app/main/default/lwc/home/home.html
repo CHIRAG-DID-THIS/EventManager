@@ -1,0 +1,118 @@
+<template>
+    <div class="homepage-container">
+
+        <!-- Section 1: Hero & Search Integration -->
+        <section class="hero-section slds-grid slds-grid_vertical slds-grid_align-center slds-p-vertical_xxlarge">
+            <div class="slds-text-align_center hero-content">
+                <h1 class="slds-text-heading_extra-large hero-title-glow slds-m-bottom_medium">
+                    The Future of Event Planning is Decentralized
+                </h1>
+                <p class="slds-text-heading_medium slds-m-bottom_large hero-subtitle">
+                    Discover and book unique venues and certified vendors seamlessly.
+                </p>
+            </div>
+
+            <!-- Placeholder for the eventSearch component -->
+            <!-- NOTE: You must drag the 'c-eventSearch' component here in Experience Builder -->
+            <div class="search-integration-wrapper slds-size_1-1 slds-medium-size_8-12 slds-large-size_6-12 slds-p-around_medium">
+                <!-- IMPORTANT FIX: Removed invalid <p> tags that blocked input -->
+                <c-event-search onsearchcomplete={handleSearchComplete}></c-event-search>
+            </div>
+        </section>
+
+        <!-- Section 2: About the Platform -->
+        <section class="about-section slds-p-vertical_xxlarge">
+            <div class="slds-text-align_center slds-m-bottom_xxlarge">
+                <h2 class="slds-text-heading_large section-title-glow slds-m-bottom_small">
+                    Why Choose AA_Event?
+                </h2>
+                <p class="slds-text-heading_medium section-subtitle">
+                    Trust, Transparency.
+                </p>
+            </div>
+            
+            <div class="slds-grid slds-wrap slds-gutters_large slds-p-horizontal_large feature-grid">
+                
+                <!-- Feature 1 -->
+                <div class="slds-col slds-size_1-1 slds-medium-size_1-3 slds-p-vertical_medium">
+                    <div class="feature-card">
+                        <lightning-icon icon-name="utility:lock" size="large" class="feature-icon"></lightning-icon>
+                        <h3 class="slds-text-heading_large feature-title">Secure Contracts</h3>
+                        <p class="slds-m-top_medium feature-description">
+                            All bookings are secured 
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="slds-col slds-size_1-1 slds-medium-size_1-3 slds-p-vertical_medium">
+                    <div class="feature-card">
+                        <lightning-icon icon-name="utility:money_for_dollars" size="large" class="feature-icon"></lightning-icon>
+                        <h3 class="slds-text-heading_large feature-title">Transparent Pricing</h3>
+                        <p class="slds-m-top_medium feature-description">
+                            No hidden fees. See exactly what you pay for with every venue and service breakdown.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="slds-col slds-size_1-1 slds-medium-size_1-3 slds-p-vertical_medium">
+                    <div class="feature-card">
+                        <lightning-icon icon-name="utility:world" size="large" class="feature-icon"></lightning-icon>
+                        <h3 class="slds-text-heading_large feature-title">Global Network</h3>
+                        <p class="slds-m-top_medium feature-description">
+                            Access top-tier venues and vetted event professionals worldwide, all in one place.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Booking Process Steps -->
+        <section class="process-section slds-p-vertical_xxlarge">
+            <div class="slds-text-align_center slds-m-bottom_xxlarge">
+                <h2 class="slds-text-heading_large section-title-glow slds-m-bottom_small">
+                    Your Path to a Perfect Event
+                </h2>
+                <p class="slds-text-heading_medium section-subtitle">
+                    Simple steps from search to confirmation.
+                </p>
+            </div>
+
+            <div class="slds-grid slds-wrap slds-gutters_large slds-p-horizontal_large process-flow">
+                
+                <!-- Step 1 -->
+                <div class="slds-col slds-size_1-1 slds-medium-size_1-4 process-step">
+                    <div class="step-circle step-1">1</div>
+                    <h3 class="slds-text-heading_medium slds-m-vertical_small">Search & Discover</h3>
+                    <p class="step-description">Find venues based on location, budget, and capacity.</p>
+                </div>
+
+                <!-- Arrow Connector (Desktop Only) -->
+                <div class="slds-col slds-hide_small slds-medium-size_1-12 process-arrow">
+                    <span class="step-arrow">→</span>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="slds-col slds-size_1-1 slds-medium-size_1-4 process-step">
+                    <div class="step-circle step-2">2</div>
+                    <h3 class="slds-text-heading_medium slds-m-vertical_small">Select Services</h3>
+                    <p class="step-description">Customize your booking with vetted event planner services.</p>
+                </div>
+
+                <!-- Arrow Connector (Desktop Only) -->
+                <div class="slds-col slds-hide_small slds-medium-size_1-12 process-arrow">
+                    <span class="step-arrow">→</span>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="slds-col slds-size_1-1 slds-medium-size_1-4 process-step">
+                    <div class="step-circle step-3">3</div>
+                    <h3 class="slds-text-heading_medium slds-m-vertical_small">Confirm & Pay</h3>
+                    <p class="step-description">Secure your date and services with a final, transparent payment.</p>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</template>

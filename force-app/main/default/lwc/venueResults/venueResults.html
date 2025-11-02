@@ -1,0 +1,23 @@
+<template>
+    <!-- Only render if there are results to display -->
+    <template if:true={hasResults}>
+        <h2 class="slds-text-heading_medium slds-m-bottom_medium">Search Results</h2>
+        <lightning-layout multiple-rows="true">
+            <!-- Loop through each venue in the searchResults array -->
+            <template for:each={searchResults} for:item="venue">
+                <lightning-layout-item key={venue.Id} size="12" small-device-size="6" medium-device-size="4" padding="around-small">
+                    <!-- Venue Card - Made clickable -->
+                    <div class="slds-box slds-box_link slds-box_shadow slds-media slds-media_center" onclick={handleVenueSelect} data-id={venue.Id}>
+                        <div class="slds-media__body">
+                             <h3 class="slds-text-heading_small slds-m-bottom_small">
+                                <a href="#" onclick={handleVenueSelect} data-id={venue.Id}>{venue.VenueName__c}</a>
+                            </h3>
+                            <p class="slds-m-bottom_small"><strong>Location:</strong> {venue.Location__c}</p>
+                            <p><strong>Capacity:</strong> {venue.Capacity__c} guests</p>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+    </template>
+</template>

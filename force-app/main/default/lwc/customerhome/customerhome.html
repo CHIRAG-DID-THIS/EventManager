@@ -1,0 +1,33 @@
+<template>
+    <c-customerheader user-id={userId}></c-customerheader>
+
+    <c-customersearch onsearch={handleSearchEvent}></c-customersearch>
+
+    <template if:false={isSearching}>
+        <c-customerhomecontent></c-customerhomecontent>
+    </template>
+
+    <template if:true={isSearching}>
+        <div class="results-wrapper">
+            <template if:true={isLoading}>
+                <div class="spinner-container">
+                    <lightning-spinner alternative-text="Loading..." size="large"></lightning-spinner>
+                </div>
+            </template>
+            <template if:true={venues}>
+                <c-customervenuesearch 
+                    venues={venues}
+                    onvenueselected={handleVenueSelected}>
+                </c-customervenuesearch>
+            </template>
+            <template if:true={noResultsFound}>
+                <div class="no-results-container">
+                    <h2>No Venues Found</h2>
+                    <p>Try adjusting your search criteria and search again.</p>
+                </div>
+            </template>
+        </div>
+    </template>
+    
+    <c-customerfooter></c-customerfooter>
+</template>
